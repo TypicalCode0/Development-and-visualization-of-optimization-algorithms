@@ -1,0 +1,76 @@
+import re
+
+# пример функции:
+# -5*a + 6*b^10 - c
+function = input()
+
+
+def getfunction(function_str):  # принимает функцию у которой каждое слагаемое имеет вид: коэф*переменная^степень
+    function_str = function_str.replace(' ', '')
+    all_variables = []
+    coeffs = []
+    degrees = []
+    elements = re.split("([+-])", function_str)
+    for i in range(0, len(elements), 2):
+        curr = elements[i]
+        if curr == '':
+            continue
+        if '*' in curr:
+            if '^' in curr:
+                coeff, variable, degree = int(curr.split("*")[0]), curr.split("*")[1].split("^")[0], int(
+                    curr.split("^")[1])
+            else:
+                coeff, variable = int(curr.split("*")[0]), curr.split("*")[1]
+                degree = 1
+            if i != 0 and elements[i - 1] == '-':
+                coeff *= -1
+        elif '^' in curr:
+            if i == 0 or elements[i - 1] == '+':
+                coeff = 1
+            else:
+                coeff = -1
+            variable, degree = curr.split("^")[0], int(curr.split("^")[1])
+        else:
+            variable = curr
+            degree = 1
+            if i == 0 or elements[i - 1] == '+':
+                coeff = 1
+            else:
+                coeff = -1
+
+        all_variables.append(variable)
+        coeffs.append(coeff)
+        degrees.append(degree)
+    unique_variables = set(all_variables)
+
+    outcome = [len(unique_variables), all_variables, coeffs, degrees]
+
+    return outcome
+
+
+def restorefunction(
+        function):  # принимает результат работы парсера и возвращает изначальный вид функции в виду строки
+    outcome = ""
+    for i in range(len(function[1])):
+        if not ((str(function[2][i])[0]) == '-' or i == 0):
+            outcome += ' + '
+        if function[2][i] == -1:
+            outcome += f'-{function[1][i]}'
+        elif function[2][i] == 1:
+            outcome += f'{function[1][i]}'
+        else:
+            outcome += f'{function[2][i]}*{function[1][i]}'
+        if function[3][i] == -1:
+            outcome += f'({function[3][i]})'
+        elif function[3][i] == 1:
+            pass
+        else:
+            outcome += f'^{function[3][i]}'
+    outcome = outcome[0] + outcome[1:].replace('-', ' - ')
+    return outcome
+
+
+tmp = getfunction(function)
+print(function)
+print(tmp)
+print(restorefunction(tmp))
