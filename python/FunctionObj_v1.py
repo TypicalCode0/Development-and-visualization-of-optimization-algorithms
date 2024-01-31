@@ -6,6 +6,40 @@ class FucntionObj:
         self.exp = sympy.sympify(expression)
         self.variables = FucntionObj.get_unique_variables(expression)
         self.constraints = []
+        self.borders = {}
+
+    def add_border(self, var, x, y):
+        if x > y:
+            raise "Incorrect range"
+        if var in self.borders:
+            raise "Variable already has border"
+        self.borders[var] = (x, y)
+
+    def change_border(self, var, x, y):
+        if x > y:
+            raise "Incorrect range"
+        if var not in self.borders:
+            raise "Variable hasnt border"
+        self.borders[var] = (x, y)
+
+    def get_border(self, value):
+        if value in self.borders:
+            return self.borders[value]
+        return None, None
+
+    def check_borders(self, values):
+        if set(values) > set(self.borders):
+            raise "Not enough borders"
+        for i in self.borders:
+            if not (self.borders[i][0] <= values[i] <= self.borders[i][1]):
+                return False
+        return True
+
+    def check_input_values(self, values):
+        if set(self.variables) != set(values) or not self.check_for_constraints(values) or not self.check_borders(
+                values):
+            return False
+        return True
 
     @staticmethod
     def get_unique_variables(expression) -> list:
@@ -32,7 +66,7 @@ class FucntionObj:
         return result
 
     def solve(self, values):
-        if not self.check_for_constraints(values):
+        if not self.check_input_values(values):
             return None
         return self.compute_despite_constraints(values)
 
