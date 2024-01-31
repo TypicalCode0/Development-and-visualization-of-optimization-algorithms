@@ -9,7 +9,7 @@ class FucntionObj:
 
     @staticmethod
     def get_unique_variables(expression) -> list:
-        set_garbage = set(" +-()*/^1234567890<>=")
+        set_garbage = set(" +-()*/^1234567890<>=.,")
         set_variables = set(expression) - set_garbage
         return list(set_variables)
 
