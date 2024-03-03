@@ -18,9 +18,7 @@ class plot:
         i = start
         while i < end:
             rez = f.solve({f.variables[0]:i})
-            if (rez is None):
-                continue
-            else:
+            if (rez is not None):
                 x.append(i)
                 y.append(rez)
             i += step
