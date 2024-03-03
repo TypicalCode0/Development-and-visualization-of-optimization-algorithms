@@ -1,10 +1,10 @@
 import sympy
 
 
-class FucntionObj:
+class FunctionObj:
     def __init__(self, expression):  # expression в виде выражения
         self.exp = sympy.sympify(expression)
-        self.variables = FucntionObj.get_unique_variables(expression)
+        self.variables = FunctionObj.get_unique_variables(expression)
         self.constraints = []
         self.border = None
 
@@ -38,7 +38,7 @@ class FucntionObj:
 
     def add_constraint(self, constraint_expression):
         constraint_exp = sympy.sympify(constraint_expression)
-        constraint_variables = FucntionObj.get_unique_variables(constraint_expression)
+        constraint_variables = FunctionObj.get_unique_variables(constraint_expression)
         self.constraints.append((constraint_exp, constraint_variables))
 
     def check_for_constraints(self, values) -> bool:  # values = {'x' :4, 'y' : 0, .....}
@@ -67,7 +67,7 @@ class FucntionObj:
 
     def update_expression(self, expression):
         self.exp = sympy.sympify(expression)
-        self.variables = FucntionObj.get_variables(expression)
+        self.variables = FunctionObj.get_variables(expression)
 
     def get_expression(self):
         return self.exp
