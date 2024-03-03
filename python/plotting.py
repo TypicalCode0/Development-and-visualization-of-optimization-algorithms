@@ -37,8 +37,8 @@ class plot:
         fig = plt.figure(figsize = (10, 7))
         ax = plt.axes(projection ="3d")
         X, Y = np.meshgrid(X, Y)
-        Z = [[0] * len(X[0])] * len(X)
-        Z = np.array(Z)
+        Z = [[0.0] * len(X[0])] * len(X)
+        Z = np.array(Z).astype(np.float64)
         for i in range(len(X)):
             for j in range(len(X[0])):
                 z = f.solve({f.variables[0]:X[i][j], f.variables[1]:Y[i][j]})
@@ -47,6 +47,9 @@ class plot:
                 else: 
                     Z[i][j] = z
         ax.plot_surface(X, Y, Z, cmap='viridis', edgecolor='none')
+        ax.set_xlabel(f"{f.variables[0]}")
+        ax.set_ylabel(f"{f.variables[1]}")
+        ax.set_zlabel("function value")
         plt.show()
         
     def multidimensional(f):
