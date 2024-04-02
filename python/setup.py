@@ -93,8 +93,8 @@ class MainWindow(QtWidgets.QMainWindow):
         f = func(text)
         left_border, right_border = list(map(int,self.input_universe.text().split(';')))
         f.add_border(left_border, right_border)
-        limit = self.input_limitations.text()
-        f.add_constraint(limit)
+        for limit in self.input_limitations.text().split(';'):
+            f.add_constraint(limit)
         plot.draw(f)
         f = func(text)
 
