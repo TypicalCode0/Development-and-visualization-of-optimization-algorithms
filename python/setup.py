@@ -11,6 +11,9 @@ from PyQt6 import QtCore, QtWidgets
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
+        
+        # Установка цвета текста для всех виджетов
+        self.setStyleSheet("color: black;")
 
         # Настройка окна
         self.setGeometry(100, 100, 1200, 800)  # x, y, width, height
