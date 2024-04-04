@@ -1,11 +1,11 @@
 import sympy
+import re
 
 
 class FunctionObj:
     def __init__(self, expression):  # expression в виде выражения
         self.exp = sympy.sympify(expression)
         self.variables = FunctionObj.get_unique_variables(expression)
-        print(self.variables)
         self.constraints = []
         self.border = None
 
@@ -35,12 +35,7 @@ class FunctionObj:
     def get_unique_variables(expression) -> list:
         set_garbage = set(" +-()*/^1234567890<>=.,")
 
-        expression = expression.replace("sin", '')
-        expression = expression.replace("cos", '')
-        expression = expression.replace("log", '') # временная заглушка
-        expression = expression.replace("ln", '')
-        expression = expression.replace("abs", '')
-        expression = expression.replace("sqrt", '')
+        expression = re.sub(r"(sin|cos|log|ln|sqrt|tg|ctg)", "", expression)
 
         set_variables = set(expression) - set_garbage
         return list(set_variables)
