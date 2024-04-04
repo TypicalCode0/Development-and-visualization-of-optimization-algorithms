@@ -1,55 +1,53 @@
 import sympy
 
 
-class FucntionObj:
+class FunctionObj:
     def __init__(self, expression):  # expression в виде выражения
         self.exp = sympy.sympify(expression)
-        self.variables = FucntionObj.get_unique_variables(expression)
+        self.variables = FunctionObj.get_unique_variables(expression)
+        print(self.variables)
         self.constraints = []
-        self.borders = {}
+        self.border = None
 
-    def add_border(self, var, x, y):
+    def add_border(self, x, y):
         if x > y:
             raise "Incorrect range"
-        if var in self.borders:
+        if self.border is not None:
             raise "Variable already has border"
-        self.borders[var] = (x, y)
+        self.border = (x, y)
 
-    def change_border(self, var, x, y):
+    def change_border(self, x, y):
         if x > y:
             raise "Incorrect range"
-        if var not in self.borders:
+        if self.border is None:
             raise "Variable hasnt border"
-        self.borders[var] = (x, y)
+        self.border = (x, y)
 
-    def get_border(self, value):
-        if value in self.borders:
-            return self.borders[value]
-        return None, None
-
-    def check_borders(self, values):
-        if set(values) > set(self.borders):
-            raise "Not enough borders"
-        for i in self.borders:
-            if not (self.borders[i][0] <= values[i] <= self.borders[i][1]):
-                return False
-        return True
+    def get_border(self):
+        return self.border
 
     def check_input_values(self, values):
-        if set(self.variables) != set(values) or not self.check_for_constraints(values) or not self.check_borders(
-                values):
+        if set(self.variables) != set(values) or not self.check_for_constraints(values) or self.border is None:
             return False
         return True
 
     @staticmethod
     def get_unique_variables(expression) -> list:
         set_garbage = set(" +-()*/^1234567890<>=.,")
+
+        expression = expression.replace("sin", '')
+        expression = expression.replace("cos", '')
+        expression = expression.replace("log", '') # временная заглушка
+        expression = expression.replace("ln", '')
+        expression = expression.replace("abs", '')
+        expression = expression.replace("sqrt", '')
+
         set_variables = set(expression) - set_garbage
         return list(set_variables)
 
     def add_constraint(self, constraint_expression):
         constraint_exp = sympy.sympify(constraint_expression)
-        constraint_variables = FucntionObj.get_unique_variables(constraint_expression)
+        constraint_variables = FunctionObj.get_unique_variables(constraint_expression)
         self.constraints.append((constraint_exp, constraint_variables))
 
     def check_for_constraints(self, values) -> bool:  # values = {'x' :4, 'y' : 0, .....}
@@ -78,7 +76,7 @@ class FucntionObj:
 
     def update_expression(self, expression):
         self.exp = sympy.sympify(expression)
-        self.variables = FucntionObj.get_variables(expression)
+        self.variables = FunctionObj.get_variables(expression)
 
     def get_expression(self):
         return self.exp
