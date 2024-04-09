@@ -5,6 +5,7 @@ const std::vector<Operator> OPERATORS = {
     Operator(")",      -1),
     Operator("+",       0, [](double a)             { return a; },          [](double a, double b){ return a + b; }),
     Operator("-",       0, [](double a)             { return -a; },         [](double a, double b){ return a - b; }),
+    Operator("^",       2, [](double a, double b)   { return pow(a,b); }),
     Operator("**",      2, [](double a, double b)   { return pow(a,b); }),
     Operator("*",       1, [](double a, double b)   { return a * b; }),
     Operator("/",       1, [](double a, double b)   { return a / b; }),
@@ -51,14 +52,6 @@ Point::Point(size_t ndim) {
 
 Point::Point(std::vector<double>&& x) {
     this->x = std::move(x);
-}
-
-Point::Point(const Point& other) {
-    x = other.x;
-}
-
-Point::Point(const Point&& other) {
-    x = std::move(other.x);
 }
 
 Point Point::operator-(const Point other) const {
