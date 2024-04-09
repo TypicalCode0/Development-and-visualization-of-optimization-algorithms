@@ -21,7 +21,7 @@ LeTim42(Лебедев Тимур)
 
 1. Клонирование репозитория
 2. Установить python, если ещё это не сделали
-3. Установить нужные библиотеки: `pip install requirements.txt`
+3. Установить нужные библиотеки: `pip install -r requirements.txt`
 4. Скомпилировать бинарные файлы через CMake:
    - `cmake -B bin cpp` - конфигурация
    - `cmake --build bin --config Release` - сборка
