@@ -1,4 +1,5 @@
 import sympy
+import re
 
 
 class FunctionObj:
@@ -33,6 +34,9 @@ class FunctionObj:
     @staticmethod
     def get_unique_variables(expression) -> list:
         set_garbage = set(" +-()*/^1234567890<>=.,")
+
+        expression = re.sub(r"(sin|cos|log|ln|sqrt|tg|ctg)", "", expression)
+
         set_variables = set(expression) - set_garbage
         return list(set_variables)
 
