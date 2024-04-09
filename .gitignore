@@ -1,5 +1,6 @@
 bin
 python/__pycache__
+python/venv
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
