@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) { // Arguments: function as a string, left bord
     if (argc <= 5) {
         throw std::invalid_argument("Not enough arguments");
     }
-    engine.seed(now());
+    engine.seed((unsigned int)now());
     f = Function(argv[1]);
     n = f.get_ndim();
     double left_border = std::stod(argv[2]);

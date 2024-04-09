@@ -4,6 +4,7 @@
 #include <vector>
 #include <stack>
 #include <cmath>
+#include <string>
 #include <cctype>
 #include <stdexcept>
 
@@ -38,14 +39,16 @@ struct Token {
     Token(double num) : type(NUMBER), num(num) {}
     Token(Operator op) : type(OPERATOR), op(op) {}
     Token(size_t var) : type(VARIABLE), var(var) {}
+    Token(const Token& token) = default;
+    Token(Token&& token) = default;
 };
 
 struct Point {
     std::vector<double> x;
     Point(size_t ndim);
     Point(std::vector<double>&& x);
-    Point(const Point& other);
-    Point(const Point&& other);
+    Point(const Point& other) { x = other.x; }
+    Point(Point&& other) { x = std::move(other.x); }
     Point operator-(Point other) const;
     Point operator*(double d) const;
 };
