@@ -34,5 +34,4 @@ LeTim42(Лебедев Тимур)
 
 ## 3 UI
 
-Ссылка на figma с коцептом
-UI https://www.figma.com/file/6peWaiucRqFpiL5yhAFPFg/UI-concept?type=design&node-id=0-1&mode=design&t=qiihIj0c59pyGC1b-0
+Ссылка на figma с концептом UI https://www.figma.com/file/6peWaiucRqFpiL5yhAFPFg/UI-concept?type=design&node-id=0-1&mode=design&t=qiihIj0c59pyGC1b-0
