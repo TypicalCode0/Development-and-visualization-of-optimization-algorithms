@@ -31,9 +31,6 @@ LeTim42(Лебедев Тимур)
    - limitations - ограничения, можно задавать несколько, разделяя знаком ";"
    - universe - задание левой и правой границ для всех переменных
 
-> [!NOTE]
-> Возможно в будущем сделаем makefile
-
 ## 3 UI
 
 Ссылка на figma с концептом UI https://www.figma.com/file/6peWaiucRqFpiL5yhAFPFg/UI-concept?type=design&node-id=0-1&mode=design&t=qiihIj0c59pyGC1b-0
