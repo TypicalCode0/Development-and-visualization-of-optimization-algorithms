@@ -1,4 +1,4 @@
-import sys
+import sys, os
 
 from PyQt6 import uic, QtCore, QtGui
 from PyQt6.QtWidgets import *
@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import *
 class VisualisationApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('ui/main.ui', self)
+        uic.loadUi('ui/main_2.ui', self)
         self.setWindowTitle("Visualization of optimization algorithms")
 
         self.constraints = []
@@ -22,9 +22,12 @@ class VisualisationApp(QMainWindow):
         self.pushButton_delete_constraint = self.findChild(QPushButton, "pushButton_delete_constraint")
         self.pushButton_clear_constraints = self.findChild(QPushButton, "pushButton_clear_constraints")
         self.pushButton_ready = self.findChild(QPushButton, "pushButton_ready")
+        self.pushButton_stop = self.findChild(QPushButton, "pushButton_stop")
         self.pushButton_step = self.findChild(QPushButton, "pushButton_step")
         self.pushButton_steps = self.findChild(QPushButton, "pushButton_steps")
         self.pushButton_exit = self.findChild(QPushButton, "pushButton_exit")
+
+        self.pushButton_stop.hide()
 
         self.wait()
 
@@ -62,6 +65,8 @@ class VisualisationApp(QMainWindow):
 
 
 if __name__ == '__main__':
+    os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+    # app = QtGui.QGuiApplication(sys.argv)
     app = QApplication(sys.argv)
     ex = VisualisationApp()
     ex.show()
