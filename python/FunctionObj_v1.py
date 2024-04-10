@@ -11,16 +11,20 @@ class FunctionObj:
 
     def add_border(self, x, y):
         if x > y:
-            raise "Incorrect range"
+            print("Incorrect range")
+            raise ValueError
         if self.border is not None:
-            raise "Variable already has border"
+            print("Variable already has border")
+            raise ValueError
         self.border = (x, y)
 
     def change_border(self, x, y):
         if x > y:
-            raise "Incorrect range"
+            print("Incorrect range")
+            raise ValueError
         if self.border is None:
-            raise "Variable hasnt border"
+            print("Variable hasn't border")
+            raise ValueError
         self.border = (x, y)
 
     def get_border(self):
@@ -63,10 +67,10 @@ class FunctionObj:
             return None
         return self.compute_despite_constraints(values)
 
-    def delete_constaint(self, index):
+    def delete_constraint(self, index):
         del self.constraints[index]
 
-    def clear_all_constaint(self):
+    def clear_all_constraint(self):
         self.constraints.clear()
 
     def update_expression(self, expression):
@@ -81,4 +85,4 @@ class FunctionObj:
 
     def __str__(self):
         text = '\n'.join(list(map(lambda x: str(x[0]), self.constraints)))
-        return f"Expression: {self.exp}\nConstaints:\n{text}"
+        return f"Expression: {self.exp}\nConstraints:\n{text}"
