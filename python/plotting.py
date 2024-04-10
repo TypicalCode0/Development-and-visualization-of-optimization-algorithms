@@ -5,6 +5,7 @@ import FunctionObj_v1 as func
 import numpy as np
 
 class plot:
+    @staticmethod
     def draw(f):
         if len(f.variables) == 1:
             plot.two_dimensional(f)
@@ -18,10 +19,14 @@ class plot:
         i = start
         while i < end:
             rez = f.solve({f.variables[0]:i})
-            if (rez is not None):
+            if (rez is None):
+                i += step
+                continue
+            else:
                 x.append(i)
                 y.append(rez)
             i += step
+
         plt.plot(x, y)
         plt.xlabel(f.variables[0])
         plt.ylabel(f'f{f.variables[0]}')
@@ -35,7 +40,7 @@ class plot:
         fig = plt.figure(figsize = (10, 7))
         ax = plt.axes(projection ="3d")
         X, Y = np.meshgrid(X, Y)
-        Z = [[0.0] * len(X[0])] * len(X)
+        Z = [[0] * len(X[0])] * len(X)
         Z = np.array(Z).astype(np.float64)
         for i in range(len(X)):
             for j in range(len(X[0])):
@@ -45,9 +50,6 @@ class plot:
                 else: 
                     Z[i][j] = z
         ax.plot_surface(X, Y, Z, cmap='viridis', edgecolor='none')
-        ax.set_xlabel(f"{f.variables[0]}")
-        ax.set_ylabel(f"{f.variables[1]}")
-        ax.set_zlabel("function value")
         plt.show()
         
     def multidimensional(f):
