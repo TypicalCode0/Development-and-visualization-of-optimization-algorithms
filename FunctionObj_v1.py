@@ -59,7 +59,6 @@ class FunctionObj:
         return result
 
     def solve(self, values):
-        print(values,'val')
         if not self.check_input_values(values):
             return None
         return self.compute_despite_constraints(values)
