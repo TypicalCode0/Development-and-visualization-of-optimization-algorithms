@@ -1,114 +1,92 @@
-#pip install pyqt6
+import sys
+
+import matplotlib.pyplot as plt
+from PyQt6 import uic, QtCore, QtGui
+from PyQt6.QtWidgets import *
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 
 from plotting import plot
 from FunctionObj_v1 import FunctionObj as func
-from PyQt6.QtWidgets import QApplication, QMainWindow, QSplitter, QWidget, QLineEdit, QVBoxLayout, QLabel, QHBoxLayout
-from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QApplication, QMainWindow, QSplitter, QWidget, QLineEdit, QVBoxLayout, QLabel, QHBoxLayout
-from PyQt6 import QtCore, QtWidgets
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+from matplotlib.figure import Figure
+from PyQt5.QtWidgets import QSizePolicy
 
-
-class MainWindow(QtWidgets.QMainWindow):
+class VisualisationApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        
-        # Установка цвета текста для всех виджетов
-        self.setStyleSheet("color: black;")
+        uic.loadUi('ui/main.ui', self)
+        self.setWindowTitle("Visualization of optimization algorithms")
 
-        # Настройка окна
-        self.setGeometry(100, 100, 1200, 800)  # x, y, width, height
-        self.setWindowTitle('course_work')
+        self.constraints = []
 
-        # Создание сплиттера и виджетов
-        self.splitter = QtWidgets.QSplitter(Qt.Orientation.Horizontal, self)
-        self.splitter.setStyleSheet("QSplitter::handle { background-color: black }")
+        self.comboBox_choose_alg = self.findChild(QComboBox, "comboBox_choose_alg")
+        self.textEdit_expression = self.findChild(QLineEdit, "lineEdit_expression")
+        self.lineEdit_universe_left = self.findChild(QLineEdit, "lineEdit_universe_left")
+        self.lineEdit_universe_right = self.findChild(QLineEdit, "lineEdit_universe_right")
+        self.lineEdit_new_constraints = self.findChild(QLineEdit, "lineEdit_new_constraints")
+        self.listWidget_constraints = self.findChild(QListWidget, "listWidget_constraints")
+        self.pushButton_add_constraint = self.findChild(QPushButton, "pushButton_add_constraint")
+        self.pushButton_delete_constraint = self.findChild(QPushButton, "pushButton_delete_constraint")
+        self.pushButton_clear_constraints = self.findChild(QPushButton, "pushButton_clear_constraints")
+        self.pushButton_ready = self.findChild(QPushButton, "pushButton_ready")
+        self.pushButton_step = self.findChild(QPushButton, "pushButton_step")
+        self.pushButton_steps = self.findChild(QPushButton, "pushButton_steps")
+        self.pushButton_exit = self.findChild(QPushButton, "pushButton_exit")
 
-        self.widget1 = QtWidgets.QWidget(self.splitter)
-        self.widget1.setStyleSheet("background-color: white; border: 2px solid black;")
-
-        self.widget2 = QtWidgets.QWidget(self.splitter)
-        self.widget2.setStyleSheet("background-color: grey; border: 2px solid black;")
-
-        # Размеры виджетов
-        self.splitter.setSizes([400, 800])  # initial sizes for the widgets
-
-        # Центральный виджет
-        self.setCentralWidget(self.splitter)
-
-        # Вертикальный layout для первого виджета
-        self.layout1 = QtWidgets.QVBoxLayout(self.widget1)
-        self.layout1.setContentsMargins(10, 10, 10, 10)
-        self.layout1.setSpacing(0)
+        self.widget_graphics = self.findChild(QWidget, "widget_graphics")
+        self.layout_graphics = self.findChild(QVBoxLayout, "layout_graphics")
 
 
+        self.wait()
 
-        # Текст поля функции
-        self.label = QtWidgets.QLabel("Enter the function:", self.widget1)
-        self.label.setStyleSheet("border: none;")
-        self.layout1.addWidget(self.label)
+    def wait(self):
+        self.pushButton_exit.clicked.connect(self.close_program)
+        self.pushButton_add_constraint.clicked.connect(self.add_constraint)
+        self.pushButton_delete_constraint.clicked.connect(self.delete_constraint)
+        self.pushButton_clear_constraints.clicked.connect(self.clear_constraints)
+        self.pushButton_ready.clicked.connect(self.get_data)
 
-        # Поле функции
-        self.input_line = QtWidgets.QLineEdit(self.widget1)
-        self.input_line.setStyleSheet("border: 1px solid black;")
-        self.input_line.returnPressed.connect(self.on_return_pressed)
-        self.layout1.addWidget(self.input_line)
+    def check_errors(self):
+        pass
 
+    def add_constraint(self):
+        constraint = self.lineEdit_new_constraints.text()
+        self.constraints.append(constraint)
+        print(self.constraints)
+        self.lineEdit_new_constraints.clear()
+        self.update_list_constraints()
 
-        # Горизонтальные layout'ы для текстов и полей limitations и universe
-        h1_layout = QtWidgets.QHBoxLayout()
-        h2_layout = QtWidgets.QHBoxLayout()
+    def delete_constraint(self):
+        pass
 
-        # Текст поля Limitations
-        self.label_limitations = QtWidgets.QLabel("Limitations:", self.widget1)
-        self.label_limitations.setStyleSheet("border: none;")
+    def clear_constraints(self):
+        self.constraints.clear()
+        self.update_list_constraints()
 
-        h1_layout.addWidget(self.label_limitations)
+    def update_list_constraints(self):
+        pass
 
-        # Поле Limitations
-        self.input_limitations = QtWidgets.QLineEdit(self.widget1)
-        self.input_limitations.setStyleSheet("border: 1px solid black;")
-        self.input_limitations.returnPressed.connect(self.on_return_pressed)
-        h2_layout.addWidget(self.input_limitations)
-
-        # Текст поля Universe
-        self.label_universe = QLabel("Universe:", self.widget1)
-        self.label_universe.setStyleSheet("border: none;")
-        h1_layout.addWidget(self.label_universe)
-
-        # Поле Universe
-        self.input_universe = QLineEdit(self.widget1)
-        self.input_universe.setStyleSheet("border: 1px solid black;")
-        self.input_universe.returnPressed.connect(self.on_return_pressed)
-        h2_layout.addWidget(self.input_universe)
-
-
-
-        # Добавляем горизонтальный layout в общий вертикальный layout
-        self.layout1.addLayout(h1_layout)
-        self.layout1.addLayout(h2_layout)
-
-        # Растягиваем пространство
-        self.layout1.addStretch()
-
-    def on_return_pressed(self):
-        text = self.input_line.text()
-        print(f"Текст был сохранен: {text}")
-        f = func(text)
-        left_border, right_border = list(map(int,self.input_universe.text().split(';')))
-        f.add_border(left_border, right_border)
-        for limit in self.input_limitations.text().split(';'):
+    def get_data(self):
+        print("function is", self.textEdit_expression.text())
+        print(f"limitations are: {self.constraints}")
+        print(f"universe is: ({self.lineEdit_universe_left.text()};{self.lineEdit_universe_right.text()})")
+        f = func(self.textEdit_expression.text())
+        f.add_border(int(self.lineEdit_universe_left.text()), int(self.lineEdit_universe_right.text()))
+        for limit in self.constraints:
             f.add_constraint(limit)
+
         plot.draw(f)
-        f = func(text)
 
 
 
-def main():
 
-    app = QApplication([])
-    win = MainWindow()
-    win.show()
-    app.exec()
+    def close_program(self):
+        sys.exit()
+
 
 if __name__ == '__main__':
-    main()
+    app = QApplication(sys.argv)
+    ex = VisualisationApp()
+    ex.show()
+    sys.exit(app.exec())
