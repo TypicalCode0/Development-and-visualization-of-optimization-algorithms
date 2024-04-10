@@ -1,21 +1,22 @@
+from locale import normalize
+from re import A
 import sys
 
-import matplotlib.pyplot as plt
 from PyQt6 import uic, QtCore, QtGui
 from PyQt6.QtWidgets import *
-from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
-
-from plotting import plot
+from matplotlib import projections
 from FunctionObj_v1 import FunctionObj as func
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+import matplotlib.pyplot as plt
+import numpy as np
+
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
-from PyQt5.QtWidgets import QSizePolicy
+
 
 class VisualisationApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('ui/main.ui', self)
+        uic.loadUi('kr/Development-and-visualization-of-optimization-algorithms/python/ui/main.ui', self)
         self.setWindowTitle("Visualization of optimization algorithms")
 
         self.constraints = []
@@ -35,9 +36,7 @@ class VisualisationApp(QMainWindow):
         self.pushButton_exit = self.findChild(QPushButton, "pushButton_exit")
 
         self.widget_graphics = self.findChild(QWidget, "widget_graphics")
-        self.layout_graphics = self.findChild(QVBoxLayout, "layout_graphics")
-
-
+        self.graph_layout = QVBoxLayout(self.widget_graphics)
         self.wait()
 
     def wait(self):
@@ -75,14 +74,63 @@ class VisualisationApp(QMainWindow):
         f.add_border(int(self.lineEdit_universe_left.text()), int(self.lineEdit_universe_right.text()))
         for limit in self.constraints:
             f.add_constraint(limit)
-
-        plot.draw(f)
-
-
-
+        self.draw(f)
 
     def close_program(self):
         sys.exit()
+
+    def draw(self, f):
+        if len(f.variables) == 1:
+            VisualisationApp.two_dimensional(self, f)
+        elif len(f.variables) == 2:
+            VisualisationApp.three_dimensional(self, f)
+
+    def two_dimensional(self, f):
+        size_pic, start, end = 100, f.border[0], f.border[1]
+        step = (end - start) / size_pic
+        x, y = [], []
+        i = start
+        while i < end:
+            rez = f.solve({f.variables[0]:i})
+            i += step
+            if (rez is None):
+                continue
+            else:
+                x.append(i)
+                y.append(rez)
+        fig = Figure()
+        ax = fig.add_subplot()
+        ax.plot(x, y)
+        ax.set_xlabel(f.variables[0])
+        ax.set_ylabel(f'f({f.variables[0]})')
+        sc = FigureCanvasQTAgg(fig)
+        self.graph_layout.addWidget(sc)
+
+
+    def three_dimensional(self, f):
+        size_pic, start, end = 100, f.border[0], f.border[1]
+        step = (end - start) / size_pic
+        X = np.arange(start, end, step)
+        Y = np.arange(start, end, step)
+        X, Y = np.meshgrid(X, Y)
+        Z = [[0] * len(X[0])] * len(X)
+        Z = np.array(Z).astype(np.float64)
+        for i in range(len(X)):
+            for j in range(len(X[0])):
+                z = f.solve({f.variables[0]:X[i][j], f.variables[1]:Y[i][j]})
+                if (z is None):
+                    Z = np.ma.masked_where((X == X[i][j]) & (Y == Y[i][j]), Z)
+                else: 
+                    Z[i][j] = z
+        fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+
+        ax.set_xlabel(f.variables[0])
+        ax.set_ylabel(f.variables[1])
+        ax.set_zlabel(f'f({f.variables[0]},{f.variables[1]})')
+        
+        ax.plot_surface(X, Y, Z, cmap='viridis', edgecolor='none')
+        sc = FigureCanvasQTAgg(fig)
+        self.graph_layout.addWidget(sc)
 
 
 if __name__ == '__main__':
