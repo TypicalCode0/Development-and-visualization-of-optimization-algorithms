@@ -75,19 +75,31 @@ Function::Function(std::string&& function) {
 std::vector<Token> Function::tokenize(std::string& function) {
     std::vector<Token> tokens;
     size_t i = 0;
+    bool operand = false;
     auto try_tokenize_number = [&](){
         std::string number = "";
         while (i < function.size() && (std::isdigit(function[i]) || function[i] == '.'))
             number += function[i++];
         if (number.empty()) return false;
         tokens.emplace_back(Token(std::stod(number)));
+        operand = true;
         return true;
     };
     auto try_tokenize_operator = [&](){
         for (auto& op : OPERATORS) {
             if (i + op.str.size() <= function.size() && function.substr(i, op.str.size()) == op.str) {
                 tokens.emplace_back(op);
+                if (op.is_unary && op.is_binary) {
+                    if (operand) {
+                        tokens.back().op.is_unary = false;
+                        tokens.back().op.is_binary = true;
+                    } else {
+                        tokens.back().op.is_unary = true;
+                        tokens.back().op.is_binary = false;
+                    }
+                }
                 i += op.str.size();
+                operand = op.str == ")";
                 return true;
             }
         }
@@ -103,6 +115,7 @@ std::vector<Token> Function::tokenize(std::string& function) {
         tokens.emplace_back(Token(v));
         if (v == variables.size())
             variables.emplace_back(var);
+        operand = true;
         return true;
     };
     while (i < function.size()) {
@@ -158,16 +171,18 @@ double Function::operator()(const Point& p) const {
             calc.push(p.x[token.var]);
             break;
         case OPERATOR:
+            if (calc.empty()) {
+                throw std::runtime_error("Failed to calculate function");
+            }
             double a = calc.top(); calc.pop();
-            if (token.op.is_binary && !calc.empty()) {
+            if (token.op.is_binary) {
+                if (calc.empty()) {
+                    throw std::runtime_error("Failed to calculate function");
+                }
                 double b = a;
                 a = calc.top(); calc.pop();
                 calc.push(token.op.calc2(a,b));
-            } else if (token.op.is_unary)
-                calc.push(token.op.calc1(a));
-            else {
-                throw std::runtime_error("Failed to calculate function");
-            }
+            } else calc.push(token.op.calc1(a));
             break;
         }
     }
