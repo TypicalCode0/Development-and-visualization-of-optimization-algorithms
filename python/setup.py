@@ -1,13 +1,12 @@
 import sys
-
-from PyQt6 import uic
+import time
+from PyQt6 import uic, QtCore, QtGui
 from PyQt6.QtWidgets import *
 from sympy import SympifyError
-
-from FunctionObj_v1 import FunctionObj as Func
+from FunctionObj_v1 import FunctionObj as func
 import matplotlib.pyplot as plt
 import numpy as np
-
+import subprocess
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 
@@ -15,8 +14,25 @@ from matplotlib.figure import Figure
 class VisualisationApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("ui/main.ui", self)
+        uic.loadUi("Development-and-visualization-of-optimization-algorithms/python/ui/main.ui", self)
         self.setWindowTitle("Visualization of optimization algorithms")
+
+        self.comboBox_choose_alg = self.findChild(QComboBox, "comboBox_choose_alg")
+        self.textEdit_expression = self.findChild(QTextEdit, "textEdit_expression")
+        self.lineEdit_universe_left = self.findChild(QLineEdit, "lineEdit_universe_left")
+        self.lineEdit_universe_right = self.findChild(QLineEdit, "lineEdit_universe_right")
+        self.lineEdit_new_constraints = self.findChild(QLineEdit, "lineEdit_new_constraints")
+        self.listWidget_constraints = self.findChild(QListWidget, "listWidget_constraints")
+        self.pushButton_add_constraint = self.findChild(QPushButton, "pushButton_add_constraint")
+        self.pushButton_delete_constraint = self.findChild(QPushButton, "pushButton_delete_constraint")
+        self.pushButton_clear_constraints = self.findChild(QPushButton, "pushButton_clear_constraints")
+        self.pushButton_ready = self.findChild(QPushButton, "pushButton_ready")
+        self.pushButton_step = self.findChild(QPushButton, "pushButton_step")
+        self.pushButton_steps = self.findChild(QPushButton, "pushButton_steps")
+        self.pushButton_exit = self.findChild(QPushButton, "pushButton_exit")
+        self.pushButton_stop = self.findChild(QPushButton, "pushButton_stop")
+        self.widget_graphics = self.findChild(QWidget, "widget_graphics")
+        self.layout_graphics = self.findChild(QVBoxLayout, "layout_graphics")
 
         self.constraints = []
         self.algorithms = ["Gradient Descent", "1"]
@@ -84,7 +100,7 @@ class VisualisationApp(QMainWindow):
         print(f"limitations are: {self.constraints}")
         print(f"universe is: ({self.lineEdit_universe_left.text()};{self.lineEdit_universe_right.text()})")
         try:
-            f = Func(expression)
+            f = func(expression)
         except SympifyError:
             print("Sympify Error")
             return
@@ -109,9 +125,24 @@ class VisualisationApp(QMainWindow):
 
     def draw(self, f):
         if len(f.variables) == 1:
-            VisualisationApp.two_dimensional(self, f)
+            self.two_dimensional(f)
         elif len(f.variables) == 2:
-            VisualisationApp.three_dimensional(self, f)
+            self.three_dimensional(f)
+
+    def print_steps_algorithm(self, ax, f, fig):
+        file = open("C:/folder/kr/tmp.txt", 'r')
+        coordinate = file.readline()
+        while coordinate:
+            if coordinate != "":
+                coordinate = coordinate.split()
+                if len(coordinate) == 1:
+                    ax.scatter(float(coordinate[0]), f.solve({f.variables[0]:float(coordinate[0])}), marker='^')
+                elif len(coordinate) == 2:
+                    ax.scatter(float(coordinate[0]), float(coordinate[1]), f.solve({f.variables[0]:float(coordinate[0]), f.variables[1]:float(coordinate[1])}), c="#000000", marker='^')
+                fig.canvas.draw()
+                fig.canvas.flush_events()
+                time.sleep(1)
+            coordinate = file.readline()
 
     def two_dimensional(self, f):
         size_pic, start, end = 100, f.border[0], f.border[1]
@@ -119,9 +150,9 @@ class VisualisationApp(QMainWindow):
         x, y = [], []
         i = start
         while i < end:
-            rez = f.solve({f.variables[0]: i})
+            rez = f.solve({f.variables[0]:i})
             i += step
-            if rez is None:
+            if (rez is None):
                 continue
             else:
                 x.append(i)
@@ -131,9 +162,11 @@ class VisualisationApp(QMainWindow):
         ax.plot(x, y)
         ax.set_xlabel(f.variables[0])
         ax.set_ylabel(f'f({f.variables[0]})')
-        sc = FigureCanvasQTAgg(fig)
-        self.clear_layout()
-        self.graph_layout.addWidget(sc)
+        canvas = FigureCanvasQTAgg(fig)
+        self.graph_layout.addWidget(canvas)
+        subprocess.run(['C:/folder/kr/Development-and-visualization-of-optimization-algorithms/c++/bin/gd.exe',
+                        f"{f.exp}", f'{start}', f'{end}', f'{step}', "10"], check=True)
+        self.print_steps_algorithm(ax, f, fig) 
 
     def three_dimensional(self, f):
         size_pic, start, end = 100, f.border[0], f.border[1]
@@ -145,10 +178,10 @@ class VisualisationApp(QMainWindow):
         Z = np.array(Z).astype(np.float64)
         for i in range(len(X)):
             for j in range(len(X[0])):
-                z = f.solve({f.variables[0]: X[i][j], f.variables[1]: Y[i][j]})
-                if z is None:
+                z = f.solve({f.variables[0]:X[i][j], f.variables[1]:Y[i][j]})
+                if (z is None):
                     Z = np.ma.masked_where((X == X[i][j]) & (Y == Y[i][j]), Z)
-                else:
+                else: 
                     Z[i][j] = z
         fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
 
@@ -158,8 +191,10 @@ class VisualisationApp(QMainWindow):
 
         ax.plot_surface(X, Y, Z, cmap='viridis', edgecolor='none')
         sc = FigureCanvasQTAgg(fig)
-        self.clear_layout()
         self.graph_layout.addWidget(sc)
+        subprocess.run(['C:/folder/kr/Development-and-visualization-of-optimization-algorithms/c++/bin/gd.exe',
+                        f"{f.exp}", f'{start}', f'{end}', f'{step}', "10"], check=True)
+        self.print_steps_algorithm(ax, f, fig)
 
 
 if __name__ == '__main__':
