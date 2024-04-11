@@ -14,7 +14,7 @@ from matplotlib.figure import Figure
 class VisualisationApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("Development-and-visualization-of-optimization-algorithms/python/ui/main.ui", self)
+        uic.loadUi("ui/main.ui", self)
         self.setWindowTitle("Visualization of optimization algorithms")
 
         self.comboBox_choose_alg = self.findChild(QComboBox, "comboBox_choose_alg")
@@ -130,7 +130,7 @@ class VisualisationApp(QMainWindow):
             self.three_dimensional(f)
 
     def print_steps_algorithm(self, ax, f, fig):
-        file = open("C:/folder/kr/tmp.txt", 'r')
+        file = open("tmp.txt", 'r')
         coordinate = file.readline()
         while coordinate:
             if coordinate != "":
@@ -164,7 +164,7 @@ class VisualisationApp(QMainWindow):
         ax.set_ylabel(f'f({f.variables[0]})')
         canvas = FigureCanvasQTAgg(fig)
         self.graph_layout.addWidget(canvas)
-        subprocess.run(['C:/folder/kr/Development-and-visualization-of-optimization-algorithms/c++/bin/gd.exe',
+        subprocess.run(['cpp/bin/gd.exe',
                         f"{f.exp}", f'{start}', f'{end}', f'{step}', "10"], check=True)
         self.print_steps_algorithm(ax, f, fig) 
 
@@ -192,7 +192,7 @@ class VisualisationApp(QMainWindow):
         ax.plot_surface(X, Y, Z, cmap='viridis', edgecolor='none')
         sc = FigureCanvasQTAgg(fig)
         self.graph_layout.addWidget(sc)
-        subprocess.run(['C:/folder/kr/Development-and-visualization-of-optimization-algorithms/c++/bin/gd.exe',
+        subprocess.run(['cpp/bin/gd.exe',
                         f"{f.exp}", f'{start}', f'{end}', f'{step}', "10"], check=True)
         self.print_steps_algorithm(ax, f, fig)
 
