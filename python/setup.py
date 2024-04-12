@@ -221,7 +221,7 @@ class VisualisationApp(QMainWindow):
         self.ax.set_ylabel(f.variables[1])
         self.ax.set_zlabel(f'f({f.variables[0]},{f.variables[1]})')
 
-        self.ax.plot_surface(X, Y, Z, cmap='viridis', edgecolor='none')
+        self.ax.plot_surface(X, Y, Z, cmap='viridis', edgecolor='none', alpha=0.8)
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.graph_layout.addWidget(self.canvas)
         subprocess.run(['cpp/bin/gd.exe',
