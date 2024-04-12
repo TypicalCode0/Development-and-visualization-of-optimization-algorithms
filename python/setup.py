@@ -1,4 +1,5 @@
 import sys
+import time
 from PyQt6 import uic, QtCore, QtGui
 from PyQt6.QtWidgets import *
 from sympy import SympifyError
@@ -30,6 +31,7 @@ class VisualisationApp(QMainWindow):
         self.pushButton_steps = self.findChild(QPushButton, "pushButton_steps")
         self.pushButton_exit = self.findChild(QPushButton, "pushButton_exit")
         self.pushButton_stop = self.findChild(QPushButton, "pushButton_stop")
+        self.pushButton_clear_graphics = self.findChild(QPushButton, "pushButton_clear_graphics")
         self.widget_graphics = self.findChild(QWidget, "widget_graphics")
         self.layout_graphics = self.findChild(QVBoxLayout, "layout_graphics")
 
@@ -49,9 +51,11 @@ class VisualisationApp(QMainWindow):
         self.pushButton_clear_constraints.clicked.connect(self.clear_constraints)
         self.pushButton_ready.clicked.connect(self.start_algorithms)
         self.pushButton_stop.clicked.connect(self.stop_algorithms)
+        self.pushButton_clear_graphics.clicked.connect(self.clear_graphics)
         self.pushButton_step.clicked.connect(self.print_step)
         self.pushButton_steps.clicked.connect(self.print_steps)
         self.index_step = 0
+
 
     def change_status_constraints_widgets(self):
         current = int(self.comboBox_choose_alg.currentIndex())
@@ -69,6 +73,8 @@ class VisualisationApp(QMainWindow):
     def check_errors(self):
         pass
 
+
+
     def add_constraint(self):
         constraint = self.lineEdit_new_constraints.text()
         self.constraints.append(constraint)
@@ -83,6 +89,9 @@ class VisualisationApp(QMainWindow):
         self.constraints.clear()
         self.listWidget_constraints.clear()
 
+    def clear_graphics(self):
+        self.clear_layout()
+
     def start_algorithms(self):
         self.pushButton_ready.hide()
         self.pushButton_stop.show()
@@ -96,6 +105,7 @@ class VisualisationApp(QMainWindow):
         self.pushButton_ready.show()
         self.pushButton_step.setEnabled(False)
         self.pushButton_steps.setEnabled(False)
+        self.pushButton_clear_constraints.setEnabled(True)
 
     def get_data(self):
         expression = self.textEdit_expression.toPlainText()
@@ -135,9 +145,12 @@ class VisualisationApp(QMainWindow):
     def print_step(self):
         if len(self.coordinates_steps) > self.index_step:
             if len(self.coordinates_steps[self.index_step]) == 2:
-                self.ax.scatter(float(self.coordinates_steps[self.index_step][0]), self.coordinates_steps[self.index_step][1], marker='^')
+                self.ax.scatter(float(self.coordinates_steps[self.index_step][0]),
+                                self.coordinates_steps[self.index_step][1], marker='^')
             elif len(self.coordinates_steps[self.index_step]) == 3:
-                self.ax.scatter(float(self.coordinates_steps[self.index_step][0]), float(self.coordinates_steps[self.index_step][1]), self.coordinates_steps[self.index_step][2], c="#000000", marker='^')
+                self.ax.scatter(float(self.coordinates_steps[self.index_step][0]),
+                                float(self.coordinates_steps[self.index_step][1]),
+                                self.coordinates_steps[self.index_step][2], c="#000000", marker='^')
             self.canvas.draw()
             self.canvas.flush_events()
             self.index_step += 1
@@ -147,7 +160,8 @@ class VisualisationApp(QMainWindow):
             if len(self.coordinates_steps[i]) == 2:
                 self.ax.scatter(float(self.coordinates_steps[i][0]), self.coordinates_steps[i][1], marker='^')
             elif len(self.coordinates_steps[i]) == 3:
-                self.ax.scatter(float(self.coordinates_steps[i][0]), float(self.coordinates_steps[i][1]), self.coordinates_steps[i][2], c="#000000", marker='^')
+                self.ax.scatter(float(self.coordinates_steps[i][0]), float(self.coordinates_steps[i][1]),
+                                self.coordinates_steps[i][2], c="#000000", marker='^')
             self.canvas.draw()
             self.canvas.flush_events()
 
@@ -159,9 +173,10 @@ class VisualisationApp(QMainWindow):
             if coordinate != "":
                 coordinate = coordinate.split()
                 if len(coordinate) == 1:
-                    coordinate.append(f.solve({f.variables[0]:float(coordinate[0])}))
+                    coordinate.append(f.solve({f.variables[0]: float(coordinate[0])}))
                 elif len(coordinate) == 2:
-                    coordinate.append(f.solve({f.variables[0]:float(coordinate[0]), f.variables[1]:float(coordinate[1])}))
+                    coordinate.append(
+                        f.solve({f.variables[0]: float(coordinate[0]), f.variables[1]: float(coordinate[1])}))
                 self.coordinates_steps.append(coordinate)
             coordinate = file.readline()
 
@@ -171,7 +186,7 @@ class VisualisationApp(QMainWindow):
         x, y = [], []
         i = start
         while i < end:
-            rez = f.solve({f.variables[0]:i})
+            rez = f.solve({f.variables[0]: i})
             i += step
             if (rez is None):
                 continue
@@ -187,7 +202,7 @@ class VisualisationApp(QMainWindow):
         self.graph_layout.addWidget(self.canvas)
         subprocess.run(['cpp/bin/gd.exe',
                         f"{f.exp}", f'{start}', f'{end}', f'{step}', "10"], check=True)
-        self.calculate_steps_algorithm(f) 
+        self.calculate_steps_algorithm(f)
 
     def three_dimensional(self, f):
         size_pic, start, end = 100, f.border[0], f.border[1]
@@ -199,10 +214,10 @@ class VisualisationApp(QMainWindow):
         Z = np.array(Z).astype(np.float64)
         for i in range(len(X)):
             for j in range(len(X[0])):
-                z = f.solve({f.variables[0]:X[i][j], f.variables[1]:Y[i][j]})
+                z = f.solve({f.variables[0]: X[i][j], f.variables[1]: Y[i][j]})
                 if (z is None):
                     Z = np.ma.masked_where((X == X[i][j]) & (Y == Y[i][j]), Z)
-                else: 
+                else:
                     Z[i][j] = z
         self.fig, self.ax = plt.subplots(subplot_kw={"projection": "3d"})
 
@@ -216,7 +231,6 @@ class VisualisationApp(QMainWindow):
         subprocess.run(['cpp/bin/gd.exe',
                         f"{f.exp}", f'{start}', f'{end}', f'{step}', "10"], check=True)
         self.calculate_steps_algorithm(f)
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
