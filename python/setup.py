@@ -97,6 +97,7 @@ class VisualisationApp(QMainWindow):
         self.pushButton_stop.show()
         self.pushButton_step.setEnabled(True)
         self.pushButton_steps.setEnabled(True)
+        self.pushButton_clear_constraints.setEnabled(False)
         self.index_step = 0
         self.get_data()
 
