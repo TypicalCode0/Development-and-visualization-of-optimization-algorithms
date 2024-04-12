@@ -145,12 +145,9 @@ class VisualisationApp(QMainWindow):
     def print_step(self):
         if len(self.coordinates_steps) > self.index_step:
             if len(self.coordinates_steps[self.index_step]) == 2:
-                self.ax.scatter(float(self.coordinates_steps[self.index_step][0]),
-                                self.coordinates_steps[self.index_step][1], marker='^')
+                self.ax.scatter(float(self.coordinates_steps[self.index_step][0]), self.coordinates_steps[self.index_step][1], marker='^')
             elif len(self.coordinates_steps[self.index_step]) == 3:
-                self.ax.scatter(float(self.coordinates_steps[self.index_step][0]),
-                                float(self.coordinates_steps[self.index_step][1]),
-                                self.coordinates_steps[self.index_step][2], c="#000000", marker='^')
+                self.ax.scatter(float(self.coordinates_steps[self.index_step][0]), float(self.coordinates_steps[self.index_step][1]), self.coordinates_steps[self.index_step][2],  c="black", marker='*', alpha=1, s=50)
             self.canvas.draw()
             self.canvas.flush_events()
             self.index_step += 1
@@ -160,8 +157,7 @@ class VisualisationApp(QMainWindow):
             if len(self.coordinates_steps[i]) == 2:
                 self.ax.scatter(float(self.coordinates_steps[i][0]), self.coordinates_steps[i][1], marker='^')
             elif len(self.coordinates_steps[i]) == 3:
-                self.ax.scatter(float(self.coordinates_steps[i][0]), float(self.coordinates_steps[i][1]),
-                                self.coordinates_steps[i][2], c="#000000", marker='^')
+                self.ax.scatter(float(self.coordinates_steps[i][0]), float(self.coordinates_steps[i][1]), self.coordinates_steps[i][2], c="black", marker='*', alpha=1, s=50)
             self.canvas.draw()
             self.canvas.flush_events()
 
