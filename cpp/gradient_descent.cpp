@@ -47,12 +47,12 @@ std::vector<Point> gradientDescent(double left_border, double right_border, doub
     bool out_of_bounds = false;
     do {
         points.emplace_back(points.back() - gradient(points.back()) * step_len);
-        for (double x : points.back().x)
+        for (double& x : points.back().x) {
             if (left_border > x || x > right_border) {
-                points.pop_back();
+                x = std::min(std::max(x, left_border), right_border);
                 out_of_bounds = true;
-                break;
             }
+        }
         ++step;
     } while (!out_of_bounds && dist(points[points.size()-2], points.back()) > D && step < max_steps_count);
     if (LOG) {
