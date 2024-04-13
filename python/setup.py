@@ -198,7 +198,7 @@ class VisualisationApp(QMainWindow):
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.graph_layout.addWidget(self.canvas)
         subprocess.run(['cpp/bin/gd.exe',
-                        f"{f.exp}", f'{start}', f'{end}', f'{step}', "10"], check=True)
+                        f"{f.exp}", f'{start}', f'{end}', f'{step/50}', "60"], check=True)
         self.calculate_steps_algorithm(f)
 
     def three_dimensional(self, f):
@@ -226,7 +226,7 @@ class VisualisationApp(QMainWindow):
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.graph_layout.addWidget(self.canvas)
         subprocess.run(['cpp/bin/gd.exe',
-                        f"{f.exp}", f'{start}', f'{end}', f'{step}', "10"], check=True)
+                        f"{f.exp}", f'{start}', f'{end}', f'{step/50}', "60"], check=True)
         self.calculate_steps_algorithm(f)
 
 if __name__ == '__main__':
