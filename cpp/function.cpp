@@ -90,13 +90,8 @@ std::vector<Token> Function::tokenize(std::string& function) {
             if (i + op.str.size() <= function.size() && function.substr(i, op.str.size()) == op.str) {
                 tokens.emplace_back(op);
                 if (op.is_unary && op.is_binary) {
-                    if (operand) {
-                        tokens.back().op.is_unary = false;
-                        tokens.back().op.is_binary = true;
-                    } else {
-                        tokens.back().op.is_unary = true;
-                        tokens.back().op.is_binary = false;
-                    }
+                    if (operand) tokens.back().op.is_unary = false;
+                    else tokens.back().op.is_binary = false;
                 }
                 i += op.str.size();
                 operand = op.str == ")";

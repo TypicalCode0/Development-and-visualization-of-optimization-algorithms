@@ -44,15 +44,17 @@ std::vector<Point> gradientDescent(double left_border, double right_border, doub
         points[0].x[i] = range(engine);
     if (max_steps_count == 0) return points;
     size_t step = 0;
+    bool out_of_bounds = false;
     do {
         points.emplace_back(points.back() - gradient(points.back()) * step_len);
         for (double x : points.back().x)
             if (left_border > x || x > right_border) {
                 points.pop_back();
+                out_of_bounds = true;
                 break;
             }
         ++step;
-    } while (dist(points[points.size()-2], points.back()) > D && step < max_steps_count);
+    } while (!out_of_bounds && dist(points[points.size()-2], points.back()) > D && step < max_steps_count);
     if (LOG) {
         std::cout << "Start point: " << points[0] << std::endl;
         std::cout << "End point: " << points.back() << std::endl;
