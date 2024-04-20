@@ -1,9 +1,8 @@
 import sys
-import time
-from PyQt6 import uic, QtCore, QtGui
+from PyQt6 import uic
 from PyQt6.QtWidgets import *
 from sympy import SympifyError
-from FunctionObj_v1 import FunctionObj as func
+from FunctionObj_v1 import FunctionObj as Func
 import matplotlib.pyplot as plt
 import numpy as np
 import subprocess
@@ -36,8 +35,9 @@ class VisualisationApp(QMainWindow):
         self.layout_graphics = self.findChild(QVBoxLayout, "layout_graphics")
 
         self.constraints = []
-        self.algorithms = ["Gradient Descent", "1"]
+        self.algorithms = ["Gradient Descent", "Sequential Programming", "Interior-point methods"]
         self.curr_alg = 0
+        self.coordinates_steps = []
 
         self.graph_layout = QVBoxLayout(self.widget_graphics)
         for i in self.algorithms:
@@ -51,11 +51,10 @@ class VisualisationApp(QMainWindow):
         self.pushButton_clear_constraints.clicked.connect(self.clear_constraints)
         self.pushButton_ready.clicked.connect(self.start_algorithms)
         self.pushButton_stop.clicked.connect(self.stop_algorithms)
-        self.pushButton_clear_graphics.clicked.connect(self.clear_graphics)
+        self.pushButton_clear_graphics.clicked.connect(self.clear_layout)
         self.pushButton_step.clicked.connect(self.print_step)
         self.pushButton_steps.clicked.connect(self.print_steps)
         self.index_step = 0
-
 
     def change_status_constraints_widgets(self):
         current = int(self.comboBox_choose_alg.currentIndex())
@@ -73,8 +72,6 @@ class VisualisationApp(QMainWindow):
     def check_errors(self):
         pass
 
-
-
     def add_constraint(self):
         constraint = self.lineEdit_new_constraints.text()
         self.constraints.append(constraint)
@@ -82,15 +79,11 @@ class VisualisationApp(QMainWindow):
         self.lineEdit_new_constraints.clear()
 
     def delete_constraint(self):
-        curr_item = self.listWidget_constraints.takeItem(self.listWidget_constraints.currentRow())
-        del curr_item
+        self.listWidget_constraints.takeItem(self.listWidget_constraints.currentRow())
 
     def clear_constraints(self):
         self.constraints.clear()
         self.listWidget_constraints.clear()
-
-    def clear_graphics(self):
-        self.clear_layout()
 
     def start_algorithms(self):
         self.pushButton_ready.hide()
@@ -114,7 +107,7 @@ class VisualisationApp(QMainWindow):
         print(f"limitations are: {self.constraints}")
         print(f"universe is: ({self.lineEdit_universe_left.text()};{self.lineEdit_universe_right.text()})")
         try:
-            f = func(expression)
+            f = Func(expression)
         except SympifyError:
             print("Sympify Error")
             return
@@ -128,6 +121,7 @@ class VisualisationApp(QMainWindow):
         self.draw(f)
 
     def close_program(self):
+        self.clear_layout()
         sys.exit()
 
     def clear_layout(self):
@@ -142,30 +136,39 @@ class VisualisationApp(QMainWindow):
             self.two_dimensional(f)
         elif len(f.variables) == 2:
             self.three_dimensional(f)
+        else:
+            pass
 
     def print_step(self):
-        if len(self.coordinates_steps) > self.index_step:
-            if len(self.coordinates_steps[self.index_step]) == 2:
-                self.ax.scatter(float(self.coordinates_steps[self.index_step][0]), self.coordinates_steps[self.index_step][1], marker='^')
-            elif len(self.coordinates_steps[self.index_step]) == 3:
-                self.ax.scatter(float(self.coordinates_steps[self.index_step][0]), float(self.coordinates_steps[self.index_step][1]), self.coordinates_steps[self.index_step][2],  c="black", marker='*', alpha=1, s=50)
-            self.canvas.draw()
-            self.canvas.flush_events()
-            self.index_step += 1
+        if len(self.coordinates_steps) <= self.index_step:
+            return
+        if len(self.coordinates_steps[self.index_step]) == 2:
+            self.ax.scatter(float(self.coordinates_steps[self.index_step][0]),
+                            self.coordinates_steps[self.index_step][1], marker='^')
+        elif len(self.coordinates_steps[self.index_step]) == 3:
+            self.ax.scatter(float(self.coordinates_steps[self.index_step][0]),
+                            float(self.coordinates_steps[self.index_step][1]),
+                            self.coordinates_steps[self.index_step][2], c="black", marker='*', alpha=1, s=50)
+        self.canvas.draw()
+        self.canvas.flush_events()
+        self.index_step += 1
+
 
     def print_steps(self):
         for i in range(self.index_step, len(self.coordinates_steps)):
             if len(self.coordinates_steps[i]) == 2:
                 self.ax.scatter(float(self.coordinates_steps[i][0]), self.coordinates_steps[i][1], marker='^')
             elif len(self.coordinates_steps[i]) == 3:
-                self.ax.scatter(float(self.coordinates_steps[i][0]), float(self.coordinates_steps[i][1]), self.coordinates_steps[i][2], c="black", marker='*', alpha=1, s=50)
+                self.ax.scatter(float(self.coordinates_steps[i][0]), float(self.coordinates_steps[i][1]),
+                                self.coordinates_steps[i][2], c="black", marker='*', alpha=1, s=50)
             self.canvas.draw()
             self.canvas.flush_events()
+
 
     def calculate_steps_algorithm(self, f):
         file = open("tmp.txt", 'r')
         coordinate = file.readline()
-        self.coordinates_steps = []
+        self.coordinates_steps.clear()
         while coordinate:
             if coordinate != "":
                 coordinate = coordinate.split()
@@ -177,6 +180,7 @@ class VisualisationApp(QMainWindow):
                 self.coordinates_steps.append(coordinate)
             coordinate = file.readline()
 
+
     def two_dimensional(self, f):
         size_pic, start, end = 100, f.border[0], f.border[1]
         step = (end - start) / size_pic
@@ -185,7 +189,7 @@ class VisualisationApp(QMainWindow):
         while i < end:
             rez = f.solve({f.variables[0]: i})
             i += step
-            if (rez is None):
+            if rez is None:
                 continue
             else:
                 x.append(i)
@@ -197,8 +201,8 @@ class VisualisationApp(QMainWindow):
         self.ax.set_ylabel(f'f({f.variables[0]})')
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.graph_layout.addWidget(self.canvas)
-        subprocess.run(['cpp/bin/gd.exe',
-                        f"{f.exp}", f'{start}', f'{end}', f'{step/50}', "60"], check=True)
+        subprocess.run(['../cpp/bin/gd.exe',
+                        f"{f.exp}", f'{start}', f'{end}', f'{step / 50}', "60"], check=True)
         self.calculate_steps_algorithm(f)
 
     def three_dimensional(self, f):
@@ -212,7 +216,7 @@ class VisualisationApp(QMainWindow):
         for i in range(len(X)):
             for j in range(len(X[0])):
                 z = f.solve({f.variables[0]: X[i][j], f.variables[1]: Y[i][j]})
-                if (z is None):
+                if z is None:
                     Z = np.ma.masked_where((X == X[i][j]) & (Y == Y[i][j]), Z)
                 else:
                     Z[i][j] = z
@@ -225,9 +229,10 @@ class VisualisationApp(QMainWindow):
         self.ax.plot_surface(X, Y, Z, cmap='viridis', edgecolor='none', alpha=0.8)
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.graph_layout.addWidget(self.canvas)
-        subprocess.run(['cpp/bin/gd.exe',
-                        f"{f.exp}", f'{start}', f'{end}', f'{step/50}', "60"], check=True)
+        subprocess.run(['../cpp/bin/gd.exe',
+                        f"{f.exp}", f'{start}', f'{end}', f'{step / 50}', "60"], check=True)
         self.calculate_steps_algorithm(f)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
