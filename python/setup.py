@@ -10,11 +10,12 @@ import subprocess
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 
+# Поменяй пути к файлам!
 
 class VisualisationApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("python/ui/main.ui", self)
+        uic.loadUi("ui/main.ui", self)
         self.setWindowTitle("Visualization of optimization algorithms")
 
         self.comboBox_choose_alg = self.findChild(QComboBox, "comboBox_choose_alg")
@@ -34,7 +35,8 @@ class VisualisationApp(QMainWindow):
         self.pushButton_clear_graphics = self.findChild(QPushButton, "pushButton_clear_graphics")
         self.widget_graphics = self.findChild(QWidget, "widget_graphics")
         self.layout_graphics = self.findChild(QVBoxLayout, "layout_graphics")
-
+        self.checkbox_contour_plot = self.findChild(QCheckBox, "checkbox_contourplot")
+        self.multiplier = self.findChild(QLineEdit, "lineEdit_multiplier")
         self.constraints = []
         self.algorithms = ["Gradient Descent", "Sequential Programming", "Interior-point methods"]
         self.curr_alg = 0
@@ -120,6 +122,11 @@ class VisualisationApp(QMainWindow):
             return
         for limit in self.constraints:
             f.add_constraint(limit)
+        try:
+            self.step = float(self.multiplier.text())
+        except:
+            print("Неправильный формат шага")
+            return
         self.draw(f)
 
     def close_program(self):
@@ -136,8 +143,6 @@ class VisualisationApp(QMainWindow):
     def draw(self, f):
         if len(f.variables) == 1:
             self.two_dimensional(f)
-        # elif len(f.variables) and flag:
-        #     self.countor_plot()
         elif len(f.variables) == 2:
             self.three_dimensional(f)
         else:
@@ -146,9 +151,9 @@ class VisualisationApp(QMainWindow):
     def print_step(self):
         if len(self.coordinates_steps) <= self.index_step:
             return
-        if len(self.coordinates_steps[self.index_step]) == 2 or True:
+        if len(self.coordinates_steps[self.index_step]) == 2 or self.checkbox_contour_plot.isChecked():
             self.ax.scatter(float(self.coordinates_steps[self.index_step][0]),
-                            self.coordinates_steps[self.index_step][1], marker="^")
+                            float(self.coordinates_steps[self.index_step][1]), marker="^")
         elif len(self.coordinates_steps[self.index_step]) == 3:
             self.ax.scatter(float(self.coordinates_steps[self.index_step][0]),
                             float(self.coordinates_steps[self.index_step][1]),
@@ -157,17 +162,15 @@ class VisualisationApp(QMainWindow):
         self.canvas.flush_events()
         self.index_step += 1
 
-
     def print_steps(self):
         for i in range(self.index_step, len(self.coordinates_steps)):
-            if len(self.coordinates_steps[i]) == 2 or True:
-                self.ax.scatter(float(self.coordinates_steps[i][0]), self.coordinates_steps[i][1], marker="^")
+            if len(self.coordinates_steps[i]) == 2 or self.checkbox_contour_plot.isChecked():
+                self.ax.scatter(float(self.coordinates_steps[i][0]), float(self.coordinates_steps[i][1]), marker="^")
             elif len(self.coordinates_steps[i]) == 3:
                 self.ax.scatter(float(self.coordinates_steps[i][0]), float(self.coordinates_steps[i][1]),
                                 self.coordinates_steps[i][2], c="black", marker="*", alpha=1, s=50)
             self.canvas.draw()
             self.canvas.flush_events()
-
 
     def calculate_steps_algorithm(self, f):
         file = open("tmp.txt", "r")
@@ -206,7 +209,7 @@ class VisualisationApp(QMainWindow):
         self.ax.set_ylabel(f"f({f.variables[0]})")
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.graph_layout.addWidget(self.canvas)
-        subprocess.run(["bin/gd.exe",
+        subprocess.run(["../cpp/build/gd.exe",
                         f"{f.exp}", f"{start}", f"{end}", f"{self.step}", "60"], check=True)
         self.calculate_steps_algorithm(f)
 
@@ -225,7 +228,7 @@ class VisualisationApp(QMainWindow):
                     Z = np.ma.masked_where((X == X[i][j]) & (Y == Y[i][j]), Z)
                 else:
                     Z[i][j] = z
-        if True:
+        if self.checkbox_contour_plot.isChecked():
             self.fig, self.ax = plt.subplots()
             self.ax.contour(X, Y, Z)
         else:
@@ -236,12 +239,10 @@ class VisualisationApp(QMainWindow):
         self.ax.set_ylabel(f.variables[1])
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.graph_layout.addWidget(self.canvas)
-        subprocess.run(["bin/gd.exe",
+        subprocess.run(["../cpp/build/gd.exe",
                         f"{f.exp}", f"{start}", f"{end}", f"{self.step}", "60"], check=True)
         self.calculate_steps_algorithm(f)
 
-
-        
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
