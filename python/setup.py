@@ -11,11 +11,15 @@ from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 
 # Поменяй пути к файлам!
+PATH_TO_UI = "python/ui/main.ui"
+PATH_TO_GD = "bin/gd.exe"
 
 class VisualisationApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("ui/main.ui", self)
+        tmp = self.safe_open(PATH_TO_UI, "r")
+        tmp.close()
+        uic.loadUi(PATH_TO_UI, self)
         self.setWindowTitle("Visualization of optimization algorithms")
 
         self.comboBox_choose_alg = self.findChild(QComboBox, "comboBox_choose_alg")
@@ -59,6 +63,16 @@ class VisualisationApp(QMainWindow):
         self.pushButton_steps.clicked.connect(self.print_steps)
         self.index_step = 0
         self.step = 1
+
+    def safe_open(self, filename, mode, message = ""):
+        try:
+            return open(filename, mode)
+        except FileNotFoundError:
+            print(f"Неправильный путь к файлу -> {filename}. {message}")
+            self.close_program()
+        except OSError:
+            print(f"Проблема с файлом {filename}. {message}")
+            self.close_program()
 
     def change_status_constraints_widgets(self):
         current = int(self.comboBox_choose_alg.currentIndex())
@@ -113,24 +127,37 @@ class VisualisationApp(QMainWindow):
         try:
             f = Func(expression)
         except SympifyError:
-            print("Sympify Error")
+            print("Лишние символы в функции или неправильный формат функции")
             return
         try:
             f.add_border(int(self.lineEdit_universe_left.text()), int(self.lineEdit_universe_right.text()))
         except ValueError:
-            print("ValueError")
+            print("Неправильный формат univers. left border должно быть меньше или равно right_border")
             return
-        for limit in self.constraints:
-            f.add_constraint(limit)
+        except:
+            print("Ошибка с добавлением univers в FunctionObj")
+            return
+        try:
+            for limit in self.constraints:
+                f.add_constraint(limit)
+        except:
+            print("Ошибка с добавлением ограничений в FunctionObj")
+            return
         try:
             self.step = float(self.multiplier.text())
         except:
             print("Неправильный формат шага")
             return
-        self.draw(f)
+        try:
+            self.draw(f)
+        except:
+            print("Проблемы с отрисовкой графика")
 
     def close_program(self):
-        self.clear_layout()
+        try:
+            self.clear_layout()
+        except:
+            pass
         sys.exit()
 
     def clear_layout(self):
@@ -146,7 +173,7 @@ class VisualisationApp(QMainWindow):
         elif len(f.variables) == 2:
             self.three_dimensional(f)
         else:
-            pass
+            print("Неверное количество переменных")
 
     def print_step(self):
         if len(self.coordinates_steps) <= self.index_step:
@@ -172,18 +199,30 @@ class VisualisationApp(QMainWindow):
             self.canvas.draw()
             self.canvas.flush_events()
 
+    def run_algorithm(self, path, exp, start, end, max_count_steps):
+        try:
+            subprocess.run([path, f"{exp}", f"{start}", f"{end}", f"{self.step}", f"{max_count_steps}"], check=True)
+        except:
+            print(f"Ошибка с запуком алгоритма, возможно указан неверный step multiplier или неверный path = {path}")
+            return False
+        return True
+
+
     def calculate_steps_algorithm(self, f):
-        file = open("tmp.txt", "r")
+        file = self.safe_open("tmp.txt", "r", "Неправильно отработал алгоритм.")
         coordinate = file.readline()
         self.coordinates_steps.clear()
         while coordinate:
             if coordinate != "":
                 coordinate = coordinate.split()
-                if len(coordinate) == 1:
-                    coordinate.append(f.solve({f.variables[0]: float(coordinate[0])}))
-                elif len(coordinate) == 2:
-                    coordinate.append(
-                        f.solve({f.variables[0]: float(coordinate[0]), f.variables[1]: float(coordinate[1])}))
+                try:
+                    if len(coordinate) == 1:
+                        coordinate.append(f.solve({f.variables[0]: float(coordinate[0])}))
+                    elif len(coordinate) == 2:
+                        coordinate.append(f.solve({f.variables[0]: float(coordinate[0]), f.variables[1]: float(coordinate[1])}))
+                except:
+                    print("Алгоритм отработал неверно. Неправильный формат шагов алгоритма")
+                    return
                 self.coordinates_steps.append(coordinate)
             coordinate = file.readline()
         file.close()
@@ -209,9 +248,8 @@ class VisualisationApp(QMainWindow):
         self.ax.set_ylabel(f"f({f.variables[0]})")
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.graph_layout.addWidget(self.canvas)
-        subprocess.run(["../cpp/build/gd.exe",
-                        f"{f.exp}", f"{start}", f"{end}", f"{self.step}", "60"], check=True)
-        self.calculate_steps_algorithm(f)
+        if self.run_algorithm(PATH_TO_GD, f.exp, start, end, 60):
+            self.calculate_steps_algorithm(f)
 
     def three_dimensional(self, f):
         size_pic, start, end = 100, f.border[0], f.border[1]
@@ -239,9 +277,8 @@ class VisualisationApp(QMainWindow):
         self.ax.set_ylabel(f.variables[1])
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.graph_layout.addWidget(self.canvas)
-        subprocess.run(["../cpp/build/gd.exe",
-                        f"{f.exp}", f"{start}", f"{end}", f"{self.step}", "60"], check=True)
-        self.calculate_steps_algorithm(f)
+        if self.run_algorithm(PATH_TO_GD, f.exp, start, end, 60):
+            self.calculate_steps_algorithm(f)
 
 
 if __name__ == "__main__":
