@@ -14,6 +14,7 @@ from matplotlib.figure import Figure
 PATH_TO_UI = "python/ui/main.ui"
 PATH_TO_GD = "bin/gd.exe"
 
+
 class VisualisationApp(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -64,7 +65,7 @@ class VisualisationApp(QMainWindow):
         self.index_step = 0
         self.step = 1
 
-    def safe_open(self, filename, mode, message = ""):
+    def safe_open(self, filename, mode, message=""):
         try:
             return open(filename, mode)
         except FileNotFoundError:
@@ -130,7 +131,7 @@ class VisualisationApp(QMainWindow):
             print("Лишние символы в функции или неправильный формат функции")
             return
         try:
-            f.add_border(int(self.lineEdit_universe_left.text()), int(self.lineEdit_universe_right.text()))
+            f.add_border(float(self.lineEdit_universe_left.text()), float(self.lineEdit_universe_right.text()))
         except ValueError:
             print("Неправильный формат univers. left border должно быть меньше или равно right_border")
             return
@@ -203,10 +204,9 @@ class VisualisationApp(QMainWindow):
         try:
             subprocess.run([path, f"{exp}", f"{start}", f"{end}", f"{self.step}", f"{max_count_steps}"], check=True)
         except:
-            print(f"Ошибка с запуком алгоритма, возможно указан неверный step multiplier или неверный path = {path}")
+            print(f"Ошибка с запуcком алгоритма, возможно указан неверный step multiplier или неверный path = {path}")
             return False
         return True
-
 
     def calculate_steps_algorithm(self, f):
         file = self.safe_open("tmp.txt", "r", "Неправильно отработал алгоритм.")
@@ -219,7 +219,8 @@ class VisualisationApp(QMainWindow):
                     if len(coordinate) == 1:
                         coordinate.append(f.solve({f.variables[0]: float(coordinate[0])}))
                     elif len(coordinate) == 2:
-                        coordinate.append(f.solve({f.variables[0]: float(coordinate[0]), f.variables[1]: float(coordinate[1])}))
+                        coordinate.append(
+                            f.solve({f.variables[0]: float(coordinate[0]), f.variables[1]: float(coordinate[1])}))
                 except:
                     print("Алгоритм отработал неверно. Неправильный формат шагов алгоритма")
                     return
