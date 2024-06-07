@@ -10,20 +10,19 @@ const std::vector<Operator> OPERATORS = {
     Operator("*",       1, [](double a, double b)   { return a * b; }),
     Operator("/",       1, [](double a, double b)   { return a / b; }),
     Operator("%",       1, [](double a, double b)   { return fmod(a,b); }),
-    Operator("abs",     0, [](double a)             { return fabs(a); }),
-    Operator("sqrt",    0, [](double a)             { return sqrt(a); }),
-    Operator("log",      0, [](double a)             { return log(a); }),
-//    Operator("log10",   0, [](double a)             { return log10(a); }),
-    Operator("exp",     0, [](double a)             { return exp(a); }),
-    Operator("sin",     0, [](double a)             { return sin(a); }),
-    Operator("cos",     0, [](double a)             { return cos(a); }),
-    Operator("tan",     0, [](double a)             { return tan(a); }),
-    Operator("arcsin",  0, [](double a)             { return asin(a); }),
-    Operator("arccos",  0, [](double a)             { return acos(a); }),
-    Operator("arctan",  0, [](double a)             { return atan(a); }),
-    Operator("sinh",    0, [](double a)             { return sinh(a); }),
-    Operator("cosh",    0, [](double a)             { return cosh(a); }),
-    Operator("tanh",    0, [](double a)             { return tanh(a); })
+    Operator("abs",     3, [](double a)             { return fabs(a); }),
+    Operator("sqrt",    3, [](double a)             { return sqrt(a); }),
+    Operator("log",     3, [](double a)             { return log(a); }),
+    Operator("exp",     3, [](double a)             { return exp(a); }),
+    Operator("sin",     3, [](double a)             { return sin(a); }),
+    Operator("cos",     3, [](double a)             { return cos(a); }),
+    Operator("tan",     3, [](double a)             { return tan(a); }),
+    Operator("arcsin",  3, [](double a)             { return asin(a); }),
+    Operator("arccos",  3, [](double a)             { return acos(a); }),
+    Operator("arctan",  3, [](double a)             { return atan(a); }),
+    Operator("sinh",    3, [](double a)             { return sinh(a); }),
+    Operator("cosh",    3, [](double a)             { return cosh(a); }),
+    Operator("tanh",    3, [](double a)             { return tanh(a); })
 };
 
 std::ostream& operator<<(std::ostream& out, const Token& t) {
