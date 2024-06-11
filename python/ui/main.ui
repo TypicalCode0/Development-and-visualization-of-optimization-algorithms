@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1279</width>
-    <height>648</height>
+    <width>1280</width>
+    <height>650</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -29,6 +29,277 @@
       <height>650</height>
      </rect>
     </property>
+    <property name="palette">
+     <palette>
+      <active>
+       <colorrole role="WindowText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>4</red>
+          <green>57</green>
+          <blue>108</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Button">
+        <brush brushstyle="LinearGradientPattern">
+         <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.696776000000000" endy="0.392000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+          <gradientstop position="0.000000000000000">
+           <color alpha="200">
+            <red>129</red>
+            <green>96</green>
+            <blue>203</blue>
+           </color>
+          </gradientstop>
+          <gradientstop position="1.000000000000000">
+           <color alpha="255">
+            <red>227</red>
+            <green>202</green>
+            <blue>240</blue>
+           </color>
+          </gradientstop>
+         </gradient>
+        </brush>
+       </colorrole>
+       <colorrole role="Text">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>4</red>
+          <green>57</green>
+          <blue>108</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="ButtonText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>4</red>
+          <green>57</green>
+          <blue>108</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Base">
+        <brush brushstyle="LinearGradientPattern">
+         <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.696776000000000" endy="0.392000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+          <gradientstop position="0.000000000000000">
+           <color alpha="200">
+            <red>129</red>
+            <green>96</green>
+            <blue>203</blue>
+           </color>
+          </gradientstop>
+          <gradientstop position="1.000000000000000">
+           <color alpha="255">
+            <red>227</red>
+            <green>202</green>
+            <blue>240</blue>
+           </color>
+          </gradientstop>
+         </gradient>
+        </brush>
+       </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="LinearGradientPattern">
+         <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.696776000000000" endy="0.392000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+          <gradientstop position="0.000000000000000">
+           <color alpha="200">
+            <red>129</red>
+            <green>96</green>
+            <blue>203</blue>
+           </color>
+          </gradientstop>
+          <gradientstop position="1.000000000000000">
+           <color alpha="255">
+            <red>227</red>
+            <green>202</green>
+            <blue>240</blue>
+           </color>
+          </gradientstop>
+         </gradient>
+        </brush>
+       </colorrole>
+      </active>
+      <inactive>
+       <colorrole role="WindowText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>4</red>
+          <green>57</green>
+          <blue>108</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Button">
+        <brush brushstyle="LinearGradientPattern">
+         <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.696776000000000" endy="0.392000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+          <gradientstop position="0.000000000000000">
+           <color alpha="200">
+            <red>129</red>
+            <green>96</green>
+            <blue>203</blue>
+           </color>
+          </gradientstop>
+          <gradientstop position="1.000000000000000">
+           <color alpha="255">
+            <red>227</red>
+            <green>202</green>
+            <blue>240</blue>
+           </color>
+          </gradientstop>
+         </gradient>
+        </brush>
+       </colorrole>
+       <colorrole role="Text">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>4</red>
+          <green>57</green>
+          <blue>108</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="ButtonText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>4</red>
+          <green>57</green>
+          <blue>108</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Base">
+        <brush brushstyle="LinearGradientPattern">
+         <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.696776000000000" endy="0.392000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+          <gradientstop position="0.000000000000000">
+           <color alpha="200">
+            <red>129</red>
+            <green>96</green>
+            <blue>203</blue>
+           </color>
+          </gradientstop>
+          <gradientstop position="1.000000000000000">
+           <color alpha="255">
+            <red>227</red>
+            <green>202</green>
+            <blue>240</blue>
+           </color>
+          </gradientstop>
+         </gradient>
+        </brush>
+       </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="LinearGradientPattern">
+         <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.696776000000000" endy="0.392000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+          <gradientstop position="0.000000000000000">
+           <color alpha="200">
+            <red>129</red>
+            <green>96</green>
+            <blue>203</blue>
+           </color>
+          </gradientstop>
+          <gradientstop position="1.000000000000000">
+           <color alpha="255">
+            <red>227</red>
+            <green>202</green>
+            <blue>240</blue>
+           </color>
+          </gradientstop>
+         </gradient>
+        </brush>
+       </colorrole>
+      </inactive>
+      <disabled>
+       <colorrole role="WindowText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>4</red>
+          <green>57</green>
+          <blue>108</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Button">
+        <brush brushstyle="LinearGradientPattern">
+         <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.696776000000000" endy="0.392000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+          <gradientstop position="0.000000000000000">
+           <color alpha="200">
+            <red>129</red>
+            <green>96</green>
+            <blue>203</blue>
+           </color>
+          </gradientstop>
+          <gradientstop position="1.000000000000000">
+           <color alpha="255">
+            <red>227</red>
+            <green>202</green>
+            <blue>240</blue>
+           </color>
+          </gradientstop>
+         </gradient>
+        </brush>
+       </colorrole>
+       <colorrole role="Text">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>4</red>
+          <green>57</green>
+          <blue>108</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="ButtonText">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>4</red>
+          <green>57</green>
+          <blue>108</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Base">
+        <brush brushstyle="LinearGradientPattern">
+         <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.696776000000000" endy="0.392000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+          <gradientstop position="0.000000000000000">
+           <color alpha="200">
+            <red>129</red>
+            <green>96</green>
+            <blue>203</blue>
+           </color>
+          </gradientstop>
+          <gradientstop position="1.000000000000000">
+           <color alpha="255">
+            <red>227</red>
+            <green>202</green>
+            <blue>240</blue>
+           </color>
+          </gradientstop>
+         </gradient>
+        </brush>
+       </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="LinearGradientPattern">
+         <gradient startx="0.000000000000000" starty="0.000000000000000" endx="0.696776000000000" endy="0.392000000000000" type="LinearGradient" spread="PadSpread" coordinatemode="ObjectBoundingMode">
+          <gradientstop position="0.000000000000000">
+           <color alpha="200">
+            <red>129</red>
+            <green>96</green>
+            <blue>203</blue>
+           </color>
+          </gradientstop>
+          <gradientstop position="1.000000000000000">
+           <color alpha="255">
+            <red>227</red>
+            <green>202</green>
+            <blue>240</blue>
+           </color>
+          </gradientstop>
+         </gradient>
+        </brush>
+       </colorrole>
+      </disabled>
+     </palette>
+    </property>
     <property name="font">
      <font>
       <family>Arial</family>
@@ -37,7 +308,140 @@
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true"/>
+     <string notr="true">/* colors */
+/*
+rgb(129, 96, 203)
+rgb(227, 202, 240)
+rgb(190, 51, 68)
+rgb(11, 13, 61)
+*/
+/* Стиль для QFrame */
+QFrame {
+	background-color: qlineargradient(spread:pad,  x1:0, y1:0, x2:0.696776, y2:0.392, stop:0 rgba(129, 96, 203, 200), stop:1 rgba(227, 202, 240, 255));
+    
+
+}
+
+/* Стиль для QComboBox */
+QFrame QComboBox {
+    color:rgb(11, 13, 61);
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    border-radius: 5px;       /* Радиус сглаживания углов */
+    background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0, fx: 0.5, fy: 0.5, stop: 0 rgba(255, 255, 255, 255), stop: 1 rgba(227, 202, 240, 255));
+}
+
+/* Стиль для выпадающего окна */
+QFrame QComboBox QAbstractItemView {
+	color:rgb(11, 13, 61);
+    border-radius: 5px;       /* Радиус сглаживания углов */
+    background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0, fx: 0.5, fy: 0.5, stop: 0 rgba(255, 255, 255, 255), stop: 1 rgba(227, 202, 240, 255));
+    border: none; /* Граница выпадающего окна */
+    selection-background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0, fx: 0.5, fy: 0.5, stop: 0 rgba(255, 255, 255, 255), stop: 1 rgba(129, 96, 203, 255)); /* Цвет фона для выбранного элемента */
+    selection-color: #ffffff; /* Цвет текста для выбранного элемента */
+}
+
+/* Стиль для кнопки выпадающего списка */
+QComboBox::drop-down {
+	color:rgb(11, 13, 61);
+    border: none; /* Убрать границу у кнопки выпадающего списка */
+    background: transparent; /* Сделать фон прозрачным (опционально) */
+    width: 30px; /* Ширина области для стрелочки */
+}
+
+/* Стиль для стрелочки выпадающего списка */
+QComboBox::down-arrow {
+	color:rgb(11, 13, 61);
+    border: none; /* Убрать границу у стрелочки */
+    width: 10px;  /* Ширина стрелочки (настраиваемая) */
+    height: 10px; /* Высота стрелочки (настраиваемая) */
+    image: url(:/images/arrow.png); /* Путь к изображению в ресурсах */
+}
+
+/* Стиль для QTextEdit */
+QFrame QTextEdit {
+	color:rgb(11, 13, 61);
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    border-radius: 5px;       /* Радиус сглаживания углов */
+    background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0,fx: 0.5, fy: 0.5, stop: 0 rgba(255,255,255, 255), stop: 1 rgba(227, 202, 240, 255));
+}
+
+/* Стиль для QLineEdit */
+QFrame QLineEdit {
+	color:rgb(11, 13, 61);
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    border-radius: 5px;       /* Радиус сглаживания углов */
+    background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0,fx: 0.5, fy: 0.5, stop: 0 rgba(255,255,255, 255), stop: 1 rgba(227, 202, 240, 255));
+}
+
+/* Стиль для QPushButton */
+QFrame QPushButton {
+	color:rgb(11, 13, 61);
+	border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    border-radius: 10px;       /* Радиус сглаживания углов */
+    padding: 5px;              /* Отступы */
+    background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0,fx: 0.5, fy: 0.5, stop: 0 rgba(255,255,255, 255), stop: 1 rgba(129, 96, 203, 255));
+    background-repeat: no-repeat; /* Запрет повторения изображения */
+    background-position: center; /* Позиция изображения по центру */
+}
+
+QFrame QPushButton:hover {
+	color:rgb(11, 13, 61);
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    background-color: rgba(129, 96, 203,100); /* Цвет фона при наведении */
+}
+
+QFrame QPushButton:pressed {
+	color:rgb(11, 13, 61);
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    background-color:  rgba(129, 96, 203,150); /* Цвет фона при нажатии */
+}
+
+QFrame QPushButton:disabled {
+	color:rgb(11, 13, 61);
+    border-color:rgba(190, 51, 68, 150);
+    background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0,fx: 0.5, fy: 0.5, stop: 0 rgba(255,255,255, 255), stop: 1 rgba(190, 51, 68, 100));
+}
+
+/* Стиль для QListWidget */
+QFrame QListWidget {
+	color:rgb(11, 13, 61);
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    border-radius: 5px;       /* Радиус сглаживания углов */
+    background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0,fx: 0.5, fy: 0.5, stop: 0 rgba(255,255,255, 255), stop: 1 rgba(227, 202, 240, 255));
+}
+
+/* Стиль для QLabel */
+QFrame QLabel {
+	color:rgb(11, 13, 61);
+    background-color: transparent; /* Убрать задний фон */
+    border: none;                  /* Убрать границы */
+    font-size: 14px;               /* Размер шрифта */
+}
+/* Стиль для QCheckBox */
+QFrame QCheckBox {
+    spacing: 2px;
+    background-color: transparent; /* Убрать задний фон */
+    border: none;                  /* Убрать границы */
+	color:rgb(11, 13, 61);
+
+}
+
+/* Стиль для QCheckBox индикатора */
+QFrame QCheckBox::indicator {
+    width: 15px;                   /* Ширина индикатора */
+    height: 15px;                  /* Высота индикатора */
+    border-radius: 8px;            /* Радиус сглаживания углов */
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    background-color: #FFFFFF;     /* Цвет фона индикатора */
+}
+
+QFrame QCheckBox::indicator:checked {
+    background-color: rgb(129, 96, 203);     /* Цвет фона индикатора при включении */
+    width: 15px;                   /* Ширина индикатора */
+    height: 15px;                  /* Высота индикатора */
+    border-radius: 8px;            /* Радиус сглаживания углов */
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+}</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -65,9 +469,9 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>70</y>
-       <width>131</width>
-       <height>31</height>
+       <y>65</y>
+       <width>151</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
@@ -78,9 +482,9 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>10</y>
-       <width>210</width>
-       <height>30</height>
+       <y>0</y>
+       <width>241</width>
+       <height>51</height>
       </rect>
      </property>
      <property name="text">
@@ -92,7 +496,7 @@
       <rect>
        <x>20</x>
        <y>149</y>
-       <width>101</width>
+       <width>121</width>
        <height>31</height>
       </rect>
      </property>
@@ -115,6 +519,9 @@
        <height>30</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_universe_right">
      <property name="geometry">
@@ -125,6 +532,9 @@
        <height>30</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
     </widget>
     <widget class="QLabel" name="label_constraints">
      <property name="enabled">
@@ -133,8 +543,8 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>240</y>
-       <width>131</width>
+       <y>235</y>
+       <width>161</width>
        <height>31</height>
       </rect>
      </property>
@@ -160,6 +570,9 @@
        <height>30</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="text">
       <string/>
      </property>
@@ -170,14 +583,17 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>320</x>
+       <x>329</x>
        <y>270</y>
-       <width>110</width>
+       <width>101</width>
        <height>32</height>
       </rect>
      </property>
      <property name="tabletTracking">
       <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
      <property name="text">
       <string>Add</string>
@@ -195,11 +611,14 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>320</x>
-       <y>340</y>
-       <width>110</width>
+       <x>329</x>
+       <y>350</y>
+       <width>101</width>
        <height>32</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
      <property name="text">
       <string>Clear</string>
@@ -211,11 +630,14 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>320</x>
+       <x>329</x>
        <y>310</y>
-       <width>110</width>
+       <width>101</width>
        <height>32</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
      <property name="text">
       <string>Delete</string>
@@ -233,14 +655,17 @@
        <height>200</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
     </widget>
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
        <x>20</x>
        <y>180</y>
-       <width>61</width>
-       <height>16</height>
+       <width>71</width>
+       <height>21</height>
       </rect>
      </property>
      <property name="text">
@@ -252,8 +677,8 @@
       <rect>
        <x>160</x>
        <y>180</y>
-       <width>71</width>
-       <height>16</height>
+       <width>81</width>
+       <height>21</height>
       </rect>
      </property>
      <property name="text">
@@ -282,6 +707,9 @@
        <height>100</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="text">
       <string>Ready</string>
      </property>
@@ -295,22 +723,197 @@
        <height>50</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="html">
       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Arial'; font-size:8.25pt; font-weight:600; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.AppleSystemUIFont'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QCheckBox" name="checkbox_contourplot">
      <property name="geometry">
       <rect>
        <x>340</x>
-       <y>75</y>
+       <y>77</y>
        <width>91</width>
        <height>17</height>
       </rect>
+     </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="WindowText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>11</red>
+           <green>13</green>
+           <blue>61</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>11</red>
+           <green>13</green>
+           <blue>61</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="ButtonText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>11</red>
+           <green>13</green>
+           <blue>61</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="WindowText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>11</red>
+           <green>13</green>
+           <blue>61</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>11</red>
+           <green>13</green>
+           <blue>61</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="ButtonText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>11</red>
+           <green>13</green>
+           <blue>61</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="WindowText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>11</red>
+           <green>13</green>
+           <blue>61</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>11</red>
+           <green>13</green>
+           <blue>61</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="ButtonText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>11</red>
+           <green>13</green>
+           <blue>61</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="0">
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
      </property>
      <property name="text">
       <string>ContourPlot</string>
@@ -325,6 +928,9 @@ p, li { white-space: pre-wrap; }
        <height>30</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
     </widget>
     <widget class="QLabel" name="label_3">
      <property name="geometry">
@@ -332,7 +938,7 @@ p, li { white-space: pre-wrap; }
        <x>300</x>
        <y>180</y>
        <width>91</width>
-       <height>16</height>
+       <height>21</height>
       </rect>
      </property>
      <property name="text">
@@ -344,10 +950,147 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>0</y>
+      <y>-1</y>
       <width>830</width>
-      <height>50</height>
+      <height>51</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/* colors */
+/*
+rgb(129, 96, 203)
+rgb(227, 202, 240)
+rgb(190, 51, 68)
+rgb(11, 13, 61)
+*/
+/* Стиль для QFrame */
+QFrame {
+    		background-color: qlineargradient(spread:pad,  x1:0.97, y1:0.0340909, x2:0.478, y2:0.517, stop:0 rgba(129, 96, 203, 200), stop:1 rgba(227, 202, 240, 255));
+    
+	
+
+}
+
+/* Стиль для QComboBox */
+QFrame QComboBox {
+    color:rgb(11, 13, 61);
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    border-radius: 5px;       /* Радиус сглаживания углов */
+    background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0, fx: 0.5, fy: 0.5, stop: 0 rgba(255, 255, 255, 255), stop: 1 rgba(227, 202, 240, 255));
+}
+
+/* Стиль для выпадающего окна */
+QFrame QComboBox QAbstractItemView {
+	color:rgb(11, 13, 61);
+    border-radius: 5px;       /* Радиус сглаживания углов */
+    background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0, fx: 0.5, fy: 0.5, stop: 0 rgba(255, 255, 255, 255), stop: 1 rgba(227, 202, 240, 255));
+    border: none; /* Граница выпадающего окна */
+    selection-background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0, fx: 0.5, fy: 0.5, stop: 0 rgba(255, 255, 255, 255), stop: 1 rgba(129, 96, 203, 255)); /* Цвет фона для выбранного элемента */
+    selection-color: #ffffff; /* Цвет текста для выбранного элемента */
+}
+
+/* Стиль для кнопки выпадающего списка */
+QComboBox::drop-down {
+	color:rgb(11, 13, 61);
+    border: none; /* Убрать границу у кнопки выпадающего списка */
+    background: transparent; /* Сделать фон прозрачным (опционально) */
+    width: 30px; /* Ширина области для стрелочки */
+}
+
+/* Стиль для стрелочки выпадающего списка */
+QComboBox::down-arrow {
+	color:rgb(11, 13, 61);
+    border: none; /* Убрать границу у стрелочки */
+    width: 10px;  /* Ширина стрелочки (настраиваемая) */
+    height: 10px; /* Высота стрелочки (настраиваемая) */
+    image: url(:/images/arrow.png); /* Путь к изображению в ресурсах */
+}
+
+/* Стиль для QTextEdit */
+QFrame QTextEdit {
+	color:rgb(11, 13, 61);
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    border-radius: 5px;       /* Радиус сглаживания углов */
+    background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0,fx: 0.5, fy: 0.5, stop: 0 rgba(255,255,255, 255), stop: 1 rgba(227, 202, 240, 255));
+}
+
+/* Стиль для QLineEdit */
+QFrame QLineEdit {
+	color:rgb(11, 13, 61);
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    border-radius: 5px;       /* Радиус сглаживания углов */
+    background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0,fx: 0.5, fy: 0.5, stop: 0 rgba(255,255,255, 255), stop: 1 rgba(227, 202, 240, 255));
+}
+
+/* Стиль для QPushButton */
+QFrame QPushButton {
+	color:rgb(11, 13, 61);
+	border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    border-radius: 10px;       /* Радиус сглаживания углов */
+    padding: 5px;              /* Отступы */
+    background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0,fx: 0.5, fy: 0.5, stop: 0 rgba(255,255,255, 255), stop: 1 rgba(129, 96, 203, 255));
+    background-repeat: no-repeat; /* Запрет повторения изображения */
+    background-position: center; /* Позиция изображения по центру */
+}
+
+QFrame QPushButton:hover {
+	color:rgb(11, 13, 61);
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    background-color: rgba(129, 96, 203,100); /* Цвет фона при наведении */
+}
+
+QFrame QPushButton:pressed {
+	color:rgb(11, 13, 61);
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    background-color:  rgba(129, 96, 203,150); /* Цвет фона при нажатии */
+}
+
+QFrame QPushButton:disabled {
+	color:rgb(11, 13, 61);
+    border-color:rgba(190, 51, 68, 150);
+    background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0,fx: 0.5, fy: 0.5, stop: 0 rgba(255,255,255, 255), stop: 1 rgba(190, 51, 68, 100));
+}
+
+/* Стиль для QListWidget */
+QFrame QListWidget {
+	color:rgb(11, 13, 61);
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    border-radius: 5px;       /* Радиус сглаживания углов */
+    background-color: qradialgradient(cx: 0.5, cy: 0.5, radius: 1.0,fx: 0.5, fy: 0.5, stop: 0 rgba(255,255,255, 255), stop: 1 rgba(227, 202, 240, 255));
+}
+
+/* Стиль для QLabel */
+QFrame QLabel {
+	color:rgb(11, 13, 61);
+    background-color: transparent; /* Убрать задний фон */
+    border: none;                  /* Убрать границы */
+    font-size: 14px;               /* Размер шрифта */
+}
+/* Стиль для QCheckBox */
+QFrame QCheckBox {
+    spacing: 2px;
+    background-color: transparent; /* Убрать задний фон */
+    border: none;                  /* Убрать границы */
+	color:rgb(11, 13, 61);
+
+}
+
+/* Стиль для QCheckBox индикатора */
+QFrame QCheckBox::indicator {
+    width: 15px;                   /* Ширина индикатора */
+    height: 15px;                  /* Высота индикатора */
+    border-radius: 8px;            /* Радиус сглаживания углов */
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+    background-color: #FFFFFF;     /* Цвет фона индикатора */
+}
+
+QFrame QCheckBox::indicator:checked {
+    background-color: rgb(129, 96, 203);     /* Цвет фона индикатора при включении */
+    width: 15px;                   /* Ширина индикатора */
+    height: 15px;                  /* Высота индикатора */
+    border-radius: 8px;            /* Радиус сглаживания углов */
+    border: 1px solid rgb(129, 96, 203); /* Настройка границы */
+}</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -363,7 +1106,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>120</width>
+       <width>111</width>
        <height>32</height>
       </rect>
      </property>
@@ -379,7 +1122,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>130</x>
        <y>10</y>
-       <width>120</width>
+       <width>111</width>
        <height>32</height>
       </rect>
      </property>
@@ -390,9 +1133,9 @@ p, li { white-space: pre-wrap; }
     <widget class="QPushButton" name="pushButton_exit">
      <property name="geometry">
       <rect>
-       <x>700</x>
+       <x>709</x>
        <y>10</y>
-       <width>120</width>
+       <width>111</width>
        <height>32</height>
       </rect>
      </property>
@@ -405,7 +1148,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>250</x>
        <y>10</y>
-       <width>120</width>
+       <width>111</width>
        <height>32</height>
       </rect>
      </property>
@@ -413,23 +1156,61 @@ p, li { white-space: pre-wrap; }
       <string>Clear graphics</string>
      </property>
     </widget>
+    <widget class="QLabel" name="in_process_label">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>0</y>
+       <width>171</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;In process...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="done_label">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>0</y>
+       <width>71</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Done&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="widget_graphics" native="true">
     <property name="geometry">
      <rect>
-      <x>459</x>
+      <x>449</x>
       <y>49</y>
-      <width>811</width>
-      <height>591</height>
+      <width>831</width>
+      <height>601</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:qlineargradient(spread:pad, x1:1, y1:1, x2:0.842, y2:0.806818, stop:0 rgba(129, 96, 203, 200), stop:1 rgba(227, 202, 240, 255))
+
+/* colors */
+/*
+rgb(129, 96, 203)
+rgb(227, 202, 240)
+rgb(190, 51, 68)
+rgb(11, 13, 61)
+*/
+</string>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget">
      <property name="geometry">
       <rect>
        <x>-1</x>
-       <y>9</y>
-       <width>811</width>
-       <height>591</height>
+       <y>-1</y>
+       <width>831</width>
+       <height>601</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="layout_graphics"/>
@@ -437,6 +1218,8 @@ p, li { white-space: pre-wrap; }
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="arrow.qrc"/>
+ </resources>
  <connections/>
 </ui>
