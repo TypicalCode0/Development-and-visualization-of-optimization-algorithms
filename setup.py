@@ -45,8 +45,8 @@ class VisualisationApp(QMainWindow):
         self.layout_graphics = self.findChild(QVBoxLayout, "layout_graphics")
         self.checkbox_contour_plot = self.findChild(QCheckBox, "checkbox_contourplot")
         self.multiplier = self.findChild(QLineEdit, "lineEdit_multiplier")
-        self.in_process_label = self.findChild(QLabel, "in_process_label")
-        self.done_label = self.findChild(QLabel, "done_label")
+        # self.in_process_label = self.findChild(QLabel, "in_process_label")
+        # self.done_label = self.findChild(QLabel, "done_label")
         self.constraints = []
         self.algorithms = ["Gradient Descent", "Sequential Programming", "Interior-point methods"]
 
@@ -56,8 +56,8 @@ class VisualisationApp(QMainWindow):
         for i in self.algorithms:
             self.comboBox_choose_alg.addItem(i)
         self.comboBox_choose_alg.currentIndexChanged.connect(self.change_status_constraints_widgets)
-        self.done_label.hide()
-        self.in_process_label.hide()
+        # self.done_label.hide()
+        # self.in_process_label.hide()
         self.pushButton_stop.hide()
         self.pushButton_exit.clicked.connect(self.close_program)
         self.pushButton_add_constraint.clicked.connect(self.add_constraint)
@@ -177,7 +177,12 @@ class VisualisationApp(QMainWindow):
         sys.exit()
 
     def clear_layout(self):
-        self.done_label.hide()
+        self.pushButton_stop.hide()
+        self.pushButton_ready.show()
+        self.pushButton_step.setEnabled(False)
+        self.pushButton_steps.setEnabled(False)
+        self.pushButton_clear_constraints.setEnabled(True)
+        # self.done_label.hide()
         while self.graph_layout.count():
             item = self.graph_layout.takeAt(0)
             widget = item.widget()
@@ -217,17 +222,17 @@ class VisualisationApp(QMainWindow):
             self.canvas.flush_events()
 
     def run_algorithm(self, path, exp, start, end, max_count_steps):
-        self.done_label.hide()
-        self.in_process_label.show()
+        # self.done_label.hide()
+        # self.in_process_label.show()
         try:
             subprocess.run([path, f"{exp}", f"{start}", f"{end}", f"{self.step}", f"{max_count_steps}"], check=True)
         except:
-            self.in_process_label.hide()
+            # self.in_process_label.hide()
             self.show_error_message(
                 f"Ошибка с запуcком алгоритма, возможно указан неверный step multiplier или неверный path = {path}")
             return False
-        self.in_process_label.hide()
-        self.done_label.show()
+        # self.in_process_label.hide()
+        # self.done_label.show()
         return True
 
     def calculate_steps_algorithm(self, f):
@@ -285,6 +290,7 @@ class VisualisationApp(QMainWindow):
         for i in range(len(X)):
             for j in range(len(X[0])):
                 z = f.solve({f.variables[0]: X[i][j], f.variables[1]: Y[i][j]})
+                print(X[i][j],Y[i][j],z)
                 if z is None:
                     Z = np.ma.masked_where((X == X[i][j]) & (Y == Y[i][j]), Z)
                 else:
