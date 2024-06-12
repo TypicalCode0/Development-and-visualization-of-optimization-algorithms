@@ -2,6 +2,7 @@ import aesara
 import aesara.tensor as tensor
 import sympy
 from numpy import *
+import numpy as np
 
 
 class InteriorPointMethod:
@@ -19,10 +20,10 @@ class InteriorPointMethod:
         self.eta = 0.0001  # коэф. размер шага
         self.diagonal_shift_coef = 0
 
-        self.eps = np.finfo(np.float64).eps
-        self.coef_regul = np.float64(np.sqrt(self.eps))
+        self.eps = 0.0000001
+        self.coef_regul = np.sqrt(self.eps)
 
-        self.x0 = np.random.randn(self.num_var).astype(np.float64)
+        self.x0 = np.random.randn(self.num_var)
         self.coords_history = [self.x0]
 
         self.func_vector_var = tensor.vector()  # создание вектора символьных переменных для функции
@@ -31,8 +32,8 @@ class InteriorPointMethod:
         self.func = func.get_expression()
 
         # заменяю символьные переменные изначального выражения для работы с func_vector_var
-        symbols_function = func.get_unique_symbols()
-        for ind, var in enumerate(symbols_function):
+        self.symbols_function = func.get_unique_symbols()
+        for ind, var in enumerate(self.symbols_function):
             self.func = self.func.subs(var, sympy.Symbol(f"self.func_vector_var[{ind}]"))
 
         self.func = eval(str(self.func))  # поскольку func изначально является Sympy объектом, то func безопасна
@@ -43,11 +44,11 @@ class InteriorPointMethod:
             if constr.rel_op != '<=' or constr.rhs != 0:  # алгоритм работает только для ограничений типа g(*args)<=0
                 raise ValueError
             constr = constr.lhs
-            for ind, var in enumerate(symbols_function):
+            for ind, var in enumerate(self.symbols_function):
                 constr = constr.subs(var, sympy.Symbol(f"self.func_vector_var[{ind}]"))
             self.constraints = tensor.set_subtensor(self.constraints[i], -eval(str(constr)))
 
-        self.constraints_vector = tensor.vector('constraints_vector')
+        self.constraints_vector = tensor.vector()
 
     def minimize(self):
         # создание вектора символьных переменных для изменения множителей Лагранжа
@@ -61,55 +62,47 @@ class InteriorPointMethod:
         if self.num_constraints:
             s = self.init_slack(x)
         else:
-            s = np.array([], dtype=np.float64)
-            self.mu = np.float64(self.Kkt_toler)
+            s = np.array([])
+            self.mu = self.Kkt_toler
 
         if self.num_constraints:
             lda = self.init_lagrange(x)
-            lda[lda < np.float64(0.0)] = np.float64(self.Kkt_toler)
+            lda[lda < 0] = self.Kkt_toler
         else:
-            lda = np.array([], dtype=np.float64)
+            lda = np.array([])
 
         kkt = self.KKT(x, s, lda)
 
         self.not_ok = False
         self.history = [x]
-        for outer in range(self.num_iteration):
+        for i in range(self.num_iteration):
             if all([np.linalg.norm(kkt[0]) <= self.Kkt_toler, np.linalg.norm(kkt[1]) <= self.Kkt_toler,
                     np.linalg.norm(kkt[2]) <= self.Kkt_toler]):
                 break
 
-            for inner in range(self.num_iteration):
+            for j in range(self.num_iteration):
                 mu_tol = np.max([self.Kkt_toler, self.mu])
                 if all([np.linalg.norm(kkt[0]) <= mu_tol, np.linalg.norm(kkt[1]) <= mu_tol,
                         np.linalg.norm(kkt[2]) <= mu_tol]):
-                    if not self.num_constraints:
-                        self.not_ok = 1
                     break
                 g = -self.grad(x, s, lda)
-                reg_hess_mx = self.reghess(self.hessian_func(x, s, lda))
+                reg_hess_mx = self.regul_hessian_mx(self.hessian_func(x, s, lda))
                 dz = self.sym_solve_cmp(reg_hess_mx, g.reshape(
                     (g.size, 1))).reshape((g.size,))
 
                 if self.num_constraints:
                     dz[self.num_var + self.num_constraints:] = -dz[self.num_var + self.num_constraints:]
-
-                if self.num_constraints:
                     nu_thres = np.dot(self.barrier_cost_grad(x, s), dz[:self.num_var + self.num_constraints]) / (
                             1 - self.rho) / np.sum(np.abs(self.con(x, s)))
                     if self.nu < nu_thres:
-                        self.nu = np.float64(nu_thres)
+                        self.nu = nu_thres
 
+                alpha_smax = 1
+                alpha_lmax = 1
                 if self.num_constraints:
-                    alpha_smax = self.step(
-                        s, dz[self.num_var:(self.num_var + self.num_constraints)])
-                    alpha_lmax = self.step(
-                        lda, dz[(self.num_var + self.num_constraints):])
-                    x, s, lda = self.search(x, s, lda, dz, np.float64(
-                        alpha_smax), np.float64(alpha_lmax))
-                else:
-                    x, s, lda = self.search(
-                        x, s, lda, dz, np.float64(1.0), np.float64(1.0))
+                    alpha_smax = self.step(s, dz[self.num_var:(self.num_var + self.num_constraints)])
+                    alpha_lmax = self.step(lda, dz[(self.num_var + self.num_constraints):])
+                x, s, lda = self.search(x, s, lda, dz, alpha_smax, alpha_lmax)
 
                 kkt = self.KKT(x, s, lda)
 
@@ -123,12 +116,12 @@ class InteriorPointMethod:
                 x_i = self.num_constraints * np.min(s * lda) / (np.dot(s, lda) + self.eps)
                 new_mu = (0.1 * np.min([0.05 * (1.0 - x_i) / (x_i + self.eps), 2.0]) ** 3 *
                           np.dot(s, lda) / self.num_constraints)
-                if np.float64(new_mu) < np.float64(0.0):
-                    new_mu = 0.0
-                self.mu = np.float64(new_mu)
-        return x, self.history
+                if new_mu < 0:
+                    new_mu = 0
+                self.mu = new_mu
+        return x, self.history, self.symbols_function
 
-    def reghess(self, hess_mx):  # регуляризация матрицы Гесс
+    def regul_hessian_mx(self, hess_mx):  # регуляризация матрицы Гесс
         eigenvalue = self.eigh(hess_mx)  # собственные значения
         rcond = np.min(np.abs(eigenvalue)) / np.max(np.abs(eigenvalue))  # число обусловленности
 
@@ -283,8 +276,8 @@ class InteriorPointMethod:
         if self.num_constraints:
             dl = dz[(self.num_var + self.num_constraints):]
         else:
-            dl = np.float64(0.0)
-            alpha_lmax = np.float64(0.0)
+            dl = 0
+            alpha_lmax = 0
 
         x = np.copy(x0)
         s = np.copy(s0)
@@ -299,8 +292,7 @@ class InteriorPointMethod:
                 if np.sum(np.abs(c_new)) > np.sum(np.abs(c_old)):
                     A = self.jaco(x0).T
                     try:
-                        dz_p = -self.sym_solve_cmp(
-                            A,
+                        dz_p = -self.sym_solve_cmp(A,
                             c_new.reshape((self.num_var + self.num_constraints, 1))
                         ).reshape((self.num_var + self.num_constraints,))
                     except:
