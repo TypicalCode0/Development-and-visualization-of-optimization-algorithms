@@ -62,7 +62,7 @@ class FunctionObj:
         if not self.check_input_values(values):
             return None
         res = self.compute_despite_constraints(values)
-        if isinstance(res, sympy.core.add.Add):
+        if not isinstance(res, sympy.core.add.Add):
             return None
         return res
 
