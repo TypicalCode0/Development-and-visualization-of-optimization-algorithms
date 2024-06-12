@@ -1,11 +1,10 @@
 import sympy
-import re
 
 
 class FunctionObj:
     def __init__(self, expression):  # expression в виде выражения
-        self.exp = sympy.sympify(expression)
-        self.variables = FunctionObj.get_unique_variables(expression)
+        self.exp = sympy.sympify(expression, evaluate=False)
+        self.variables = self.get_unique_variables()
         self.constraints = []
         self.border = None
 
@@ -35,18 +34,15 @@ class FunctionObj:
             return False
         return True
 
-    @staticmethod
-    def get_unique_variables(expression) -> list:
-        set_garbage = set(" +-()*/^1234567890<>=.,")
+    def get_unique_variables(self) -> list:
+        return [str(i) for i in self.exp.free_symbols]
 
-        expression = re.sub(r"(sin|cos|log|ln|sqrt|tg|ctg)", "", expression)
-
-        set_variables = set(expression) - set_garbage
-        return list(set_variables)
+    def get_unique_symbols(self):
+        return self.exp.free_symbols
 
     def add_constraint(self, constraint_expression):
-        constraint_exp = sympy.sympify(constraint_expression)
-        constraint_variables = FunctionObj.get_unique_variables(constraint_expression)
+        constraint_exp = sympy.sympify(constraint_expression, evaluate=False)
+        constraint_variables = self.get_unique_variables()
         self.constraints.append((constraint_exp, constraint_variables))
 
     def check_for_constraints(self, values) -> bool:  # values = {'x' :4, 'y' : 0, .....}
@@ -77,8 +73,8 @@ class FunctionObj:
         self.constraints.clear()
 
     def update_expression(self, expression):
-        self.exp = sympy.sympify(expression)
-        self.variables = FunctionObj.get_variables(expression)
+        self.exp = sympy.sympify(expression, evaluate=False)
+        self.variables = self.get_unique_variables()
 
     def get_expression(self):
         return self.exp
