@@ -109,7 +109,9 @@ class InteriorPointMethod:
                 self.history.append(x)
 
                 if self.not_ok:
-                    return x, self.history
+                    with open("../tmp.txt", "r+") as file:
+                        file.write('\n'.join([' '.join(list(map(str, h))) for h in list(self.history)]))
+                    return
 
             if self.num_constraints:
                 # обновление mu
@@ -119,7 +121,9 @@ class InteriorPointMethod:
                 if new_mu < 0:
                     new_mu = 0
                 self.mu = new_mu
-        return x, self.history, self.symbols_function
+        with open("../tmp.txt", "r+") as file:
+            file.write('\n'.join([' '.join(list(map(str, h))) for h in list(self.history)]))
+        return
 
     def regul_hessian_mx(self, hess_mx):  # регуляризация матрицы Гесс
         eigenvalue = self.eigh(hess_mx)  # собственные значения
