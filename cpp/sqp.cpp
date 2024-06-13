@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <numeric>
 
-
+//Алгоритм работает неправильно
 enum Mode {
     ND = -2, NEED_GRAD = -1, START = 0, NEED_EVAL_F = 1, TOO_MANY_ITERATIONS = 3, CONSTRAINTS_INCOMPATIBLE = 4, 
     SINGULAR_MATRIX_E = 5, SINGULAR_MATRIX_C = 6, POSITIVE_DIRECTIONAL_DERIVATIVE = 8, MORE_THAN_MAX_ITERATIONS = 9, 
