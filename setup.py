@@ -145,6 +145,9 @@ class VisualisationApp(QMainWindow):
         except SympifyError:
             self.show_error_message("Лишние символы в функции или неправильный формат функции")
             return
+        except:
+            self.show_error_message("Функция введена не правильно")
+            return
         try:
             f.add_border(float(self.lineEdit_universe_left.text()), float(self.lineEdit_universe_right.text()))
         except ValueError:
