@@ -51,7 +51,7 @@ class VisualisationApp(QMainWindow):
         self.constraints = []
         self.algorithms = ["Gradient Descent", "Sequential Programming", "Interior-point methods"]
 
-        self.curr_alg = 0
+        
         self.coordinates_steps = []
         self.graph_layout = QVBoxLayout(self.widget_graphics)
         for i in self.algorithms:
@@ -233,6 +233,7 @@ class VisualisationApp(QMainWindow):
     def run_algorithm(self, path, exp, start, end, max_count_steps, f):
         # self.done_label.hide()
         # self.in_process_label.show()
+        self.curr_alg = self.comboBox_choose_alg.currentIndex()
         try:
             if self.curr_alg == 0:
                 subprocess.run([path, f"{exp}", f"{start}", f"{end}", f"{self.step}", f"{max_count_steps}"], check=True)
