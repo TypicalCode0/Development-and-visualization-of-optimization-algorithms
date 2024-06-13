@@ -12,8 +12,9 @@ import numpy as np
 import subprocess
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
+from python.InteriorPointMethod import InteriorPointMethod
 
-# Поменяй пути к файлам!
+
 PATH_TO_UI = "python/ui/main.ui"
 PATH_TO_GD = "bin/gd.exe"
 
@@ -221,15 +222,24 @@ class VisualisationApp(QMainWindow):
             self.canvas.draw()
             self.canvas.flush_events()
 
-    def run_algorithm(self, path, exp, start, end, max_count_steps):
+    def run_algorithm(self, path, exp, start, end, max_count_steps, f):
         # self.done_label.hide()
         # self.in_process_label.show()
         try:
-            subprocess.run([path, f"{exp}", f"{start}", f"{end}", f"{self.step}", f"{max_count_steps}"], check=True)
+            if self.curr_alg == 0:
+                subprocess.run([path, f"{exp}", f"{start}", f"{end}", f"{self.step}", f"{max_count_steps}"], check=True)
+            elif self.curr_alg == 1:
+                raise NotImplementedError("Алгоритм работает неправильно")
+            else:
+                ipm = InteriorPointMethod(f)
+                ipm.minimize()
+        except NotImplementedError:
+            self.show_error_message("Выбранный алгоритм работает неправильно")
+            return False
         except:
             # self.in_process_label.hide()
             self.show_error_message(
-                f"Ошибка с запуcком алгоритма, возможно указан неверный step multiplier или неверный path = {path}")
+                f"Ошибка с запуcком алгоритма. Возможно указаны неверные параметры")
             return False
         # self.in_process_label.hide()
         # self.done_label.show()
@@ -276,7 +286,7 @@ class VisualisationApp(QMainWindow):
         self.ax.set_ylabel(f"f({f.variables[0]})")
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.graph_layout.addWidget(self.canvas)
-        if self.run_algorithm(PATH_TO_GD, f.exp, start, end, 60):
+        if self.run_algorithm(PATH_TO_GD, f.exp, start, end, 60, f):
             self.calculate_steps_algorithm(f)
 
     def three_dimensional(self, f):
@@ -290,7 +300,7 @@ class VisualisationApp(QMainWindow):
         for i in range(len(X)):
             for j in range(len(X[0])):
                 z = f.solve({f.variables[0]: X[i][j], f.variables[1]: Y[i][j]})
-                print(X[i][j],Y[i][j],z)
+                #print(X[i][j],Y[i][j],z)
                 if z is None:
                     Z = np.ma.masked_where((X == X[i][j]) & (Y == Y[i][j]), Z)
                 else:
@@ -306,7 +316,7 @@ class VisualisationApp(QMainWindow):
         self.ax.set_ylabel(f.variables[1])
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.graph_layout.addWidget(self.canvas)
-        if self.run_algorithm(PATH_TO_GD, f.exp, start, end, 60):
+        if self.run_algorithm(PATH_TO_GD, f.exp, start, end, 60, f):
             self.calculate_steps_algorithm(f)
 
 
