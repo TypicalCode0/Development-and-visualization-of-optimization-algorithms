@@ -109,7 +109,7 @@ class InteriorPointMethod:
                 self.history.append(x)
 
                 if self.not_ok:
-                    with open("../tmp.txt", "r+") as file:
+                    with open("../tmp.txt", "w+") as file:
                         file.write('\n'.join([' '.join(list(map(str, h))) for h in list(self.history)]))
                     return
 
@@ -121,7 +121,7 @@ class InteriorPointMethod:
                 if new_mu < 0:
                     new_mu = 0
                 self.mu = new_mu
-        with open("../tmp.txt", "r+") as file:
+        with open("../tmp.txt", "w+") as file:
             file.write('\n'.join([' '.join(list(map(str, h))) for h in list(self.history)]))
         return
 
