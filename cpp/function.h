@@ -45,12 +45,17 @@ struct Token {
 
 struct Point {
     std::vector<double> x;
+    Point() = default;
     Point(size_t ndim);
     Point(std::vector<double>&& x);
     Point(const Point& other) { x = other.x; }
     Point(Point&& other) { x = std::move(other.x); }
     Point operator-(Point other) const;
     Point operator*(double d) const;
+    Point& operator=(const Point& other) {
+        x = other.x;
+        return *this;
+    }
 };
 
 std::ostream& operator<<(std::ostream& out, const Token& t);
