@@ -14,3 +14,4 @@ PyQt6-sip==13.6.0
 python-dateutil==2.9.0.post0
 six==1.16.0
 sympy==1.12
+aesara==2.9.3
