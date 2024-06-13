@@ -42,7 +42,7 @@ class InteriorPointMethod:
         for i in range(self.num_constraints):
             constr = func.constraints[i][0]
             if constr.rel_op != '<=' or constr.rhs != 0:  # алгоритм работает только для ограничений типа g(*args)<=0
-                raise ValueError
+                raise ValueError("Алгоритм принимает g(*args) <= 0")
             constr = constr.lhs
             for ind, var in enumerate(self.symbols_function):
                 constr = constr.subs(var, sympy.Symbol(f"self.func_vector_var[{ind}]"))
