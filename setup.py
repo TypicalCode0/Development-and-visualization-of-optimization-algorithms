@@ -150,6 +150,11 @@ class VisualisationApp(QMainWindow):
             return
         try:
             f.add_border(float(self.lineEdit_universe_left.text()), float(self.lineEdit_universe_right.text()))
+            right_ = float(self.lineEdit_universe_right.text())
+            left_ = float(self.lineEdit_universe_left.text())
+            for var_ in f.get_unique_symbols():
+                f.add_constraint(str(var_ - right_ <= 0))
+                f.add_constraint(str(left_ - var_ <= 0))
         except ValueError:
             self.show_error_message(
                 "Неправильный формат univers. left border должно быть меньше или равно right_border")
