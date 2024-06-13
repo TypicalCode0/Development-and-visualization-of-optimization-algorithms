@@ -23,7 +23,7 @@ class InteriorPointMethod:
         self.eps = 0.0000001
         self.coef_regul = np.sqrt(self.eps)
 
-        self.x0 = np.random.randn(self.num_var)
+        self.x0 = np.random.rand(self.num_var) + np.full((self.num_var, ), func.get_border()[0])
         self.coords_history = [self.x0]
 
         self.func_vector_var = tensor.vector()  # создание вектора символьных переменных для функции
@@ -123,6 +123,7 @@ class InteriorPointMethod:
                 self.mu = new_mu
         with open("../tmp.txt", "w+") as file:
             file.write('\n'.join([' '.join(list(map(str, h))) for h in list(self.history)]))
+            print('\n'.join([' '.join(list(map(str, h))) for h in list(self.history)]))
         return
 
     def regul_hessian_mx(self, hess_mx):  # регуляризация матрицы Гесс
