@@ -86,9 +86,6 @@ class VisualisationApp(QMainWindow):
         except FileNotFoundError:
             self.show_error_message(f"Неправильный путь к файлу -> {filename}. {message}")
             self.close_program()
-        except OSError:
-            self.show_error_message(f"Проблема с файлом {filename}. {message}")
-            self.close_program()
 
     def change_status_constraints_widgets(self):
         current = int(self.comboBox_choose_alg.currentIndex())
@@ -145,7 +142,7 @@ class VisualisationApp(QMainWindow):
         except SympifyError:
             self.show_error_message("Лишние символы в функции или неправильный формат функции")
             return
-        except:
+        except Exception:
             self.show_error_message("Функция введена не правильно")
             return
         try:
@@ -159,29 +156,29 @@ class VisualisationApp(QMainWindow):
             self.show_error_message(
                 "Неправильный формат univers. left border должно быть меньше или равно right_border")
             return
-        except:
+        except Exception:
             self.show_error_message("Ошибка с добавлением univers в FunctionObj")
             return
         try:
             for limit in self.constraints:
                 f.add_constraint(limit)
-        except:
+        except Exception:
             self.show_error_message("Ошибка с добавлением ограничений в FunctionObj")
             return
         try:
             self.step = float(self.multiplier.text())
-        except:
+        except Exception:
             self.show_error_message("Неправильный формат шага")
             return
         try:
             self.draw(f)
-        except:
+        except Exception:
             self.show_error_message("Проблемы с отрисовкой графика")
 
     def close_program(self):
         try:
             self.clear_layout()
-        except:
+        except Exception:
             pass
         sys.exit()
 
@@ -245,7 +242,7 @@ class VisualisationApp(QMainWindow):
         except NotImplementedError:
             self.show_error_message("Выбранный алгоритм работает неправильно")
             return False
-        except:
+        except Exception:
             # self.in_process_label.hide()
             self.show_error_message(
                 f"Ошибка с запуcком алгоритма. Возможно указаны неверные параметры")
@@ -267,7 +264,7 @@ class VisualisationApp(QMainWindow):
                     elif len(coordinate) == 2:
                         coordinate.append(
                             f.solve({f.variables[0]: float(coordinate[0]), f.variables[1]: float(coordinate[1])}))
-                except:
+                except Exception:
                     self.show_error_message("Алгоритм отработал неверно. Неправильный формат шагов алгоритма")
                     return
                 self.coordinates_steps.append(coordinate)
