@@ -110,6 +110,7 @@ class VisualisationApp(QMainWindow):
         self.lineEdit_new_constraints.clear()
 
     def delete_constraint(self):
+        self.constraints.remove(self.constraints[self.listWidget_constraints.currentRow()])
         self.listWidget_constraints.takeItem(self.listWidget_constraints.currentRow())
 
     def clear_constraints(self):
