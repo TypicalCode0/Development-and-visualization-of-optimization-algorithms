@@ -238,9 +238,10 @@ class VisualisationApp(QMainWindow):
                 raise NotImplementedError("Алгоритм работает неправильно")
             else:
                 ipm = InteriorPointMethod(f)
-                _, hist = ipm.minimize()
+                _, hist, _ = ipm.minimize()
                 print(hist)
                 with open("tmp.txt", "w") as file:
+                    # print('\n'.join([' '.join(list(map(str, h))) for h in list(hist)]))
                     file.write('\n'.join([' '.join(list(map(str, h))) for h in list(hist)]))
         except NotImplementedError:
             self.show_error_message("Выбранный алгоритм работает неправильно")

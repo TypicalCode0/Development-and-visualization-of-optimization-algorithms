@@ -23,16 +23,13 @@ class InteriorPointMethod:
         self.eta = 0.0001  # коэф. размер шага
         self.diagonal_shift_coef = 0
 
-        self.eps = 0.0000001
+        self.eps = 0.00001
         self.coef_regul = np.sqrt(self.eps)
         self.tolerance_border = 0.3
 
-        self.x0 = 0
         if func.get_border() is not None:
-            self.x0 = np.random.rand(self.num_var) + np.full((self.num_var,), func.get_border()[0])
             self.borders = list(func.get_border()).copy()
-        else:
-            self.x0 = np.random.randn(self.num_var)
+        self.x0 = np.random.randn(self.num_var)
         self.coords_history = [self.x0]
 
         self.func_vector_var = tensor.vector()  # создание вектора символьных переменных для функции
@@ -84,7 +81,17 @@ class InteriorPointMethod:
 
         self.not_ok = False
         self.history = [x]
-        self.history_for_vis = [x]
+        x_copy = x.copy()
+        if self.borders is not None:
+            x_copy = []
+            for ind, coord in enumerate(x):
+                if coord < self.borders[0]:
+                    x_copy.append(self.borders[0])
+                elif coord > self.borders[1]:
+                    x_copy.append(self.borders[1])
+                else:
+                    x_copy.append(coord)
+        self.history_for_vis.append(x_copy)
         for i in range(self.num_iteration):
             if all([np.linalg.norm(kkt[0]) <= self.Kkt_toler, np.linalg.norm(kkt[1]) <= self.Kkt_toler,
                     np.linalg.norm(kkt[2]) <= self.Kkt_toler]):
@@ -121,20 +128,16 @@ class InteriorPointMethod:
                 if self.borders is not None:
                     x_copy = []
                     for ind, coord in enumerate(x):
-                        if abs(coord - self.borders[0]) > self.tolerance_border or \
-                                abs(coord - self.borders[1]) > self.tolerance_border:
-                            self.not_ok = True
                         if coord < self.borders[0]:
                             x_copy.append(self.borders[0])
                         elif coord > self.borders[1]:
                             x_copy.append(self.borders[1])
                         else:
                             x_copy.append(coord)
-
                 self.history_for_vis.append(x_copy)
 
                 if self.not_ok:
-                    return x, self.history_for_vis
+                    return x, self.history_for_vis, self.history
 
             if self.num_constraints:
                 # обновление mu
@@ -144,7 +147,7 @@ class InteriorPointMethod:
                 if new_mu < 0:
                     new_mu = 0
                 self.mu = new_mu
-        return x, self.history_for_vis
+        return x, self.history_for_vis, self.history
 
     def regul_hessian_mx(self, hess_mx):  # регуляризация матрицы Гесс
         eigenvalue = self.eigh(hess_mx)  # собственные значения
