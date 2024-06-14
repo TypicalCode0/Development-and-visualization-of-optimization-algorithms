@@ -80,11 +80,11 @@ class VisualisationApp(QMainWindow):
         error_dialog.setStandardButtons(QMessageBox.StandardButton.Ok)
         error_dialog.exec()
 
-    def safe_open(self, filename, mode, message=""):
+    def (self, filename, mode, message=""):
         try:
             return open(filename, mode)
         except FileNotFoundError:
-            self.show_error_message(f"Неправильный путь к файлу -> {filename}. {message}")
+            self.show_error_message(f"Неправильный путь к файлу -> {filename} или {message}")
             self.close_program()
 
     def change_status_constraints_widgets(self):
@@ -252,7 +252,7 @@ class VisualisationApp(QMainWindow):
         return True
 
     def calculate_steps_algorithm(self, f):
-        file = self.safe_open("tmp.txt", "r", "Неправильно отработал алгоритм.")
+        file = self.safe_open("tmp.txt", "r", "неправильно отработал алгоритм.")
         coordinate = file.readline()
         self.coordinates_steps.clear()
         while coordinate:
@@ -265,7 +265,7 @@ class VisualisationApp(QMainWindow):
                         coordinate.append(
                             f.solve({f.variables[0]: float(coordinate[0]), f.variables[1]: float(coordinate[1])}))
                 except Exception:
-                    self.show_error_message("Алгоритм отработал неверно. Неправильный формат шагов алгоритма")
+                    self.show_error_message("Алгоритм отработал неверно. Возможно неправильный формат шагов алгоритма")
                     return
                 self.coordinates_steps.append(coordinate)
             coordinate = file.readline()
