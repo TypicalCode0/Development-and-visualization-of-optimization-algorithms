@@ -80,7 +80,7 @@ class VisualisationApp(QMainWindow):
         error_dialog.setStandardButtons(QMessageBox.StandardButton.Ok)
         error_dialog.exec()
 
-    def (self, filename, mode, message=""):
+    def safe_open(self, filename, mode, message=""):
         try:
             return open(filename, mode)
         except FileNotFoundError:
