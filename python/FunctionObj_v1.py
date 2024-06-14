@@ -62,8 +62,6 @@ class FunctionObj:
         if not self.check_input_values(values):
             return None
         res = self.compute_despite_constraints(values)
-        if not isinstance(res, sympy.core.add.Add):
-            return None
         return res
 
     def delete_constraint(self, index):

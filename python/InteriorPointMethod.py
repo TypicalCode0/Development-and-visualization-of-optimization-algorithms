@@ -9,8 +9,11 @@ class InteriorPointMethod:
     def __init__(self, func):
         self.num_var = len(func.get_unique_symbols())
         self.num_constraints = len(func.constraints)  # g(*args)<=0
-        self.num_iteration = 20
+        self.num_iteration = 40
         self.history = []
+        self.history_for_vis = []
+        self.borders = None
+        self.not_ok = False
 
         self.mu = 0.1  # коэф. барьера
         self.nu = 10  # коэф. барьера
@@ -22,8 +25,14 @@ class InteriorPointMethod:
 
         self.eps = 0.0000001
         self.coef_regul = np.sqrt(self.eps)
+        self.tolerance_border = 0.3
 
-        self.x0 = np.random.rand(self.num_var) + np.full((self.num_var, ), func.get_border()[0])
+        self.x0 = 0
+        if func.get_border() is not None:
+            self.x0 = np.random.rand(self.num_var) + np.full((self.num_var,), func.get_border()[0])
+            self.borders = list(func.get_border()).copy()
+        else:
+            self.x0 = np.random.randn(self.num_var)
         self.coords_history = [self.x0]
 
         self.func_vector_var = tensor.vector()  # создание вектора символьных переменных для функции
@@ -75,6 +84,7 @@ class InteriorPointMethod:
 
         self.not_ok = False
         self.history = [x]
+        self.history_for_vis = [x]
         for i in range(self.num_iteration):
             if all([np.linalg.norm(kkt[0]) <= self.Kkt_toler, np.linalg.norm(kkt[1]) <= self.Kkt_toler,
                     np.linalg.norm(kkt[2]) <= self.Kkt_toler]):
@@ -107,10 +117,33 @@ class InteriorPointMethod:
                 kkt = self.KKT(x, s, lda)
 
                 self.history.append(x)
+                x_copy = x.copy()
+                if self.borders is not None:
+                    print("b")
+                    x_copy = []
+                    print("check -", x)
+                    for ind, coord in enumerate(x):
+                        if abs(coord - self.borders[0]) > self.tolerance_border or \
+                                abs(coord - self.borders[1]) > self.tolerance_border:
+                            self.not_ok = True
+                        if coord < self.borders[0]:
+                            x_copy.append(self.borders[0])
+                        elif coord > self.borders[1]:
+                            x_copy.append(self.borders[1])
+                        else:
+                            x_copy.append(coord)
+                    print("ok")
+
+                self.history_for_vis.append(x_copy)
+                print(self.history_for_vis)
 
                 if self.not_ok:
                     with open("../tmp.txt", "w+") as file:
-                        file.write('\n'.join([' '.join(list(map(str, h))) for h in list(self.history)]))
+                        print("history")
+                        print('\n'.join([' '.join(list(map(str, h))) for h in list(self.history)]))
+                        file.write('\n'.join([' '.join(list(map(str, h))) for h in list(self.history_for_vis)]))
+                        print("norm")
+                        print('\n'.join([' '.join(list(map(str, h))) for h in list(self.history)]))
                     return
 
             if self.num_constraints:
@@ -122,7 +155,10 @@ class InteriorPointMethod:
                     new_mu = 0
                 self.mu = new_mu
         with open("../tmp.txt", "w+") as file:
-            file.write('\n'.join([' '.join(list(map(str, h))) for h in list(self.history)]))
+            print("history")
+            print('\n'.join([' '.join(list(map(str, h))) for h in list(self.history_for_vis)]))
+            file.write('\n'.join([' '.join(list(map(str, h))) for h in list(self.history_for_vis)]))
+            print("norm")
             print('\n'.join([' '.join(list(map(str, h))) for h in list(self.history)]))
         return
 
@@ -298,8 +334,8 @@ class InteriorPointMethod:
                     A = self.jaco(x0).T
                     try:
                         dz_p = -self.sym_solve_cmp(A,
-                            c_new.reshape((self.num_var + self.num_constraints, 1))
-                        ).reshape((self.num_var + self.num_constraints,))
+                                                   c_new.reshape((self.num_var + self.num_constraints, 1))
+                                                   ).reshape((self.num_var + self.num_constraints,))
                     except:
                         dz_p = -np.linalg.lstsq(A, c_new, rcond=None)[0]
                     if (self.phi_func(x0 + alpha_smax * dx + dz_p[:self.num_var],
