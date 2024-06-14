@@ -119,9 +119,7 @@ class InteriorPointMethod:
                 self.history.append(x)
                 x_copy = x.copy()
                 if self.borders is not None:
-                    print("b")
                     x_copy = []
-                    print("check -", x)
                     for ind, coord in enumerate(x):
                         if abs(coord - self.borders[0]) > self.tolerance_border or \
                                 abs(coord - self.borders[1]) > self.tolerance_border:
@@ -132,19 +130,11 @@ class InteriorPointMethod:
                             x_copy.append(self.borders[1])
                         else:
                             x_copy.append(coord)
-                    print("ok")
 
                 self.history_for_vis.append(x_copy)
-                print(self.history_for_vis)
 
                 if self.not_ok:
-                    with open("../tmp.txt", "w+") as file:
-                        print("history")
-                        print('\n'.join([' '.join(list(map(str, h))) for h in list(self.history)]))
-                        file.write('\n'.join([' '.join(list(map(str, h))) for h in list(self.history_for_vis)]))
-                        print("norm")
-                        print('\n'.join([' '.join(list(map(str, h))) for h in list(self.history)]))
-                    return
+                    return x, self.history_for_vis
 
             if self.num_constraints:
                 # обновление mu
@@ -154,13 +144,7 @@ class InteriorPointMethod:
                 if new_mu < 0:
                     new_mu = 0
                 self.mu = new_mu
-        with open("../tmp.txt", "w+") as file:
-            print("history")
-            print('\n'.join([' '.join(list(map(str, h))) for h in list(self.history_for_vis)]))
-            file.write('\n'.join([' '.join(list(map(str, h))) for h in list(self.history_for_vis)]))
-            print("norm")
-            print('\n'.join([' '.join(list(map(str, h))) for h in list(self.history)]))
-        return
+        return x, self.history_for_vis
 
     def regul_hessian_mx(self, hess_mx):  # регуляризация матрицы Гесс
         eigenvalue = self.eigh(hess_mx)  # собственные значения
