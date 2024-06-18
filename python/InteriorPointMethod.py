@@ -27,9 +27,13 @@ class InteriorPointMethod:
         self.coef_regul = np.sqrt(self.eps)
         self.tolerance_border = 0.3
 
+        aver_ = 0
+        sigma = 1
         if func.get_border() is not None:
             self.borders = list(func.get_border()).copy()
-        self.x0 = np.random.randn(self.num_var)
+            sigma = (-self.borders[0]+self.borders[1]) / 6
+            aver_ = (self.borders[0]+self.borders[1]) / 2
+        self.x0 = sigma * np.random.randn(self.num_var) + aver_
         self.coords_history = [self.x0]
 
         self.func_vector_var = tensor.vector()  # создание вектора символьных переменных для функции

@@ -239,11 +239,11 @@ class VisualisationApp(QMainWindow):
                 raise NotImplementedError("Алгоритм работает неправильно")
             else:
                 ipm = InteriorPointMethod(f)
-                _, hist, _ = ipm.minimize()
+                _, hist_vis, hist = ipm.minimize()
                 print("ipm answer:", hist)
                 with open("tmp.txt", "w") as file:
                     # print('\n'.join([' '.join(list(map(str, h))) for h in list(hist)]))
-                    file.write('\n'.join([' '.join(list(map(str, list(map(lambda x: round(x, 4), h))))) for h in list(hist)]))
+                    file.write('\n'.join([' '.join(list(map(str, list(map(lambda x: round(x, 4), h))))) for h in list(hist_vis)]))
                 for ind in range(2 * len(f.get_unique_variables())):
                     f.delete_constraint(0)
         except NotImplementedError:
