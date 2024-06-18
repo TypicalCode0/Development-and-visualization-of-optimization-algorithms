@@ -240,10 +240,12 @@ class VisualisationApp(QMainWindow):
             else:
                 ipm = InteriorPointMethod(f)
                 _, hist, _ = ipm.minimize()
-                print(hist)
+                print("ipm answer:", hist)
                 with open("tmp.txt", "w") as file:
                     # print('\n'.join([' '.join(list(map(str, h))) for h in list(hist)]))
-                    file.write('\n'.join([' '.join(list(map(str, h))) for h in list(hist)]))
+                    file.write('\n'.join([' '.join(list(map(str, list(map(lambda x: round(x, 4), h))))) for h in list(hist)]))
+                for ind in range(2 * len(f.get_unique_variables())):
+                    f.delete_constraint(0)
         except NotImplementedError:
             self.show_error_message("Выбранный алгоритм работает неправильно")
             return False
@@ -263,16 +265,19 @@ class VisualisationApp(QMainWindow):
         while coordinate:
             if coordinate != "":
                 coordinate = coordinate.split()
+                solution_ = None
                 try:
                     if len(coordinate) == 1:
-                        coordinate.append(f.solve({f.variables[0]: float(coordinate[0])}))
+                        solution_ = f.solve({f.variables[0]: float(coordinate[0])})
+                        coordinate.append(solution_)
                     elif len(coordinate) == 2:
-                        coordinate.append(
-                            f.solve({f.variables[0]: float(coordinate[0]), f.variables[1]: float(coordinate[1])}))
+                        solution_ = f.solve({f.variables[0]: float(coordinate[0]), f.variables[1]: float(coordinate[1])})
+                        coordinate.append(solution_)
                 except Exception:
                     self.show_error_message("Алгоритм отработал неверно. Возможно неправильный формат шагов алгоритма")
                     return
-                self.coordinates_steps.append(coordinate)
+                if solution_:
+                    self.coordinates_steps.append(coordinate)
             coordinate = file.readline()
         file.close()
         os.remove("tmp.txt")
